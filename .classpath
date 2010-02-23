@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="lib" path="lib/swingx-1.6.jar" sourcepath="D:/workspace/JDTXCreator/lib/swingx-1.6/src">
+		<attributes>
+			<attribute name="javadoc_location" value="file:/D:/workspace/JDTXCreator/lib/swingx-1.6/docs/javadoc/"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="lib/TableLayout-bin-jdk1.5-2009-08-26.jar" sourcepath="lib/TableLayout-src-2009-08-26.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="jar:platform:/resource/JDTXCreator/lib/TableLayout-javadoc-2009-08-26.jar!/"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
