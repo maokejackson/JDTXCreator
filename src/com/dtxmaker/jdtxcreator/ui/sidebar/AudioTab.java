@@ -6,6 +6,7 @@ import java.util.Vector;
 
 import javax.swing.JButton;
 import javax.swing.JToggleButton;
+import javax.swing.RowFilter;
 
 import com.dtxmaker.jdtxcreator.Settings;
 import com.dtxmaker.jdtxcreator.data.ColumnNumber;
@@ -48,6 +49,7 @@ public class AudioTab extends AbstractTableTab<Audio> implements ActionListener
 		table.addColumn("BGM", false);
 		
 		table.getColumnExt(COLUMN_BGM).setCellRenderer(new BooleanCellRenderer());
+//		table.setRowFilter(RowFilter.regexFilter("([^0]0|[^0])", COLUMN_NUMBER));
 		
 		// set default column index
 		int[] index = Settings.getIntegerArray(Settings.SOUND_LIST + Settings.COLUMN_INDEX);

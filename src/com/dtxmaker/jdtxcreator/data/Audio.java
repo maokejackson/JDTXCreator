@@ -11,7 +11,7 @@ public class Audio
 	private String number;		// #WAVzz <WAV(, MP3, XA or OGG) filename>
 	private String path;
 	private String label;
-	private boolean bgm;
+	private boolean bgm;		// #BGMWAV ON
 	private int volume = 100;	// #VOLUMEzz <volume percentage>
 	private int position = 0;	// #PANzz <panning position parameter>
 	private int size = 100;		// #SIZEzz <chip display size percentage> (DTXMania Release 066b071015 or later)

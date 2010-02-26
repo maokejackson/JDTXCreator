@@ -4,7 +4,7 @@ import java.io.File;
 
 import javax.swing.JFileChooser;
 
-import com.dtxmaker.jdtxcreator.ui.chart.InternalChartManager;
+import com.dtxmaker.jdtxcreator.ui.chart.ChartFrameManager;
 
 public class ImageFileChooser extends AbstractFileChooser
 {
@@ -20,7 +20,7 @@ public class ImageFileChooser extends AbstractFileChooser
 		
 		try
 		{
-			setPath(getRelativePath(file, InternalChartManager.getInstance().getWorkingDir()));
+			setPath(getRelativePath(file, ChartFrameManager.getInstance().getWorkingDir()));
 		}
 		catch (Exception e)
 		{

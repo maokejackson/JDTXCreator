@@ -5,6 +5,7 @@ import java.io.File;
 
 import javax.swing.JFileChooser;
 import javax.swing.JInternalFrame;
+import javax.swing.JScrollPane;
 import javax.swing.event.InternalFrameAdapter;
 import javax.swing.event.InternalFrameEvent;
 
@@ -14,26 +15,27 @@ import com.dtxmaker.jdtxcreator.ui.FileChooserFactory;
 import com.dtxmaker.jdtxcreator.ui.main.Menu;
 import com.dtxmaker.jdtxcreator.ui.sidebar.SideBar;
 
-public class InternalChart extends JInternalFrame
+public class ChartFrame extends JInternalFrame
 {
 	private static final long serialVersionUID = 3008335903707360858L;
 	
 	private static int counter = 1;
 	
-	ChartPane chart;
+	ChartPanel chart;
 	ChartToolbar toolbar;
+	JScrollPane scrollPane;
 	
 	DTX dtx;
 	File file;
 	boolean dirty = false;
 
-	public InternalChart()
+	public ChartFrame()
 	{
 		this(null);
-		dirty = true;	// XXX for test
+//		dirty = true;	// XXX: for test
 	}
 	
-	public InternalChart(DTX dtx)
+	public ChartFrame(DTX dtx)
 	{
 		super("Untitled " + counter, true, true, true, true);
 		
@@ -44,8 +46,12 @@ public class InternalChart extends JInternalFrame
 		}
 		this.dtx = dtx;
 		
-		chart = new ChartPane();
 		toolbar = new ChartToolbar(chart);
+		chart = new ChartPanel();
+		scrollPane = new JScrollPane(chart);
+		scrollPane.setBorder(null);
+		scrollPane.getVerticalScrollBar().setUnitIncrement(10);
+		scrollPane.getHorizontalScrollBar().setUnitIncrement(10);
 		
 		setLayout(new BorderLayout());
 		setDoubleBuffered(true);
@@ -53,7 +59,7 @@ public class InternalChart extends JInternalFrame
 		addInternalFrameListener(frameAdapter);
 		
 		add(toolbar, BorderLayout.NORTH);
-		add(chart, BorderLayout.CENTER);
+		add(scrollPane, BorderLayout.CENTER);
 		
 		SideBar.getInstance().load(dtx);
 		setVisible(true);
@@ -114,7 +120,7 @@ public class InternalChart extends JInternalFrame
 	{
 		if (file == null)
 		{
-			int answer = FileChooserFactory.saveAs();
+			int answer = FileChooserFactory.saveAs(getTitle());
 			
 			if (answer == JFileChooser.CANCEL_OPTION) return;
 			file = FileChooserFactory.getSelectedFile();
@@ -164,7 +170,7 @@ public class InternalChart extends JInternalFrame
 		public void internalFrameClosing(InternalFrameEvent e)
 		{
 			JInternalFrame frame = e.getInternalFrame();
-			InternalChartManager.getInstance().close((InternalChart) frame);
+			ChartFrameManager.getInstance().close((ChartFrame) frame);
 		}
 	};
 }

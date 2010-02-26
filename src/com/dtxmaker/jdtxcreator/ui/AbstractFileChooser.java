@@ -12,6 +12,8 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import com.dtxmaker.jdtxcreator.Language;
+
 public abstract class AbstractFileChooser extends JPanel
 {
 	private static final long serialVersionUID = -8647764400859557480L;
@@ -23,7 +25,7 @@ public abstract class AbstractFileChooser extends JPanel
 	{
 		textField = new JTextField();
 		button = new JButton("...");
-		button.setToolTipText("Select file...");
+		button.setToolTipText(Language.get("filechooser.select_file"));
 		button.addActionListener(new ActionListener()
 		{
 			@Override
@@ -148,46 +150,4 @@ public abstract class AbstractFileChooser extends JPanel
 	}
 	
 	public abstract void openFileChooser();
-
-//	@Override
-//	public void actionPerformed(ActionEvent e)
-//	{
-//		JFileChooser fileChooser = new JFileChooser(ChartManager.getInstance().getWorkingDir());
-//		fileChooser.setAcceptAllFileFilterUsed(false);
-//		
-//		switch (type)
-//		{
-//		case TYPE_AUDIO:
-//			fileChooser.setFileFilter(new FileNameExtensionFilter("Audio file (*.wav;*.mp3;*.ogg;*.xa)", "wav", "mp3", "ogg", "xa"));
-//			break;
-//
-//		case TYPE_IMAGE:
-//		default:
-//			fileChooser.setFileFilter(new FileNameExtensionFilter("Image file (*.bmp;*.jpg;*.jpeg;*.png)", "bmp", "jpg", "jpeg", "png"));
-//			break;
-//		}
-//		
-//		int state = fileChooser.showOpenDialog(Main.getInstance());
-//		
-//		switch (type)
-//		{
-//		case TYPE_AUDIO:
-//			
-//			break;
-//
-//		default:
-//			break;
-//		}
-//		if (state != JFileChooser.APPROVE_OPTION) return;
-//		File file = fileChooser.getSelectedFile();
-//		
-//		try
-//		{
-//			setPath(getRelativePath(file, ChartManager.getInstance().getWorkingDir()));
-//		}
-//		catch (Exception ex)
-//		{
-//			ex.printStackTrace();
-//		}
-//	}
 }

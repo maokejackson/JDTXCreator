@@ -7,6 +7,7 @@ import java.awt.event.KeyEvent;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
+import com.dtxmaker.jdtxcreator.Language;
 import com.dtxmaker.jdtxcreator.ui.AbstractDialog;
 
 public abstract class AbstractPropertyDialog<E> extends AbstractDialog implements ActionListener
@@ -24,13 +25,13 @@ public abstract class AbstractPropertyDialog<E> extends AbstractDialog implement
 		setModal(true);
 		setResizable(false);
 		
-		btnOk = new JButton("Ok");
+		btnOk = new JButton(Language.get("dialog.ok"));
 		btnOk.setMnemonic(KeyEvent.VK_O);
 		btnOk.addActionListener(this);
-		btnCancel = new JButton("Cancel");
+		btnCancel = new JButton(Language.get("dialog.cancel"));
 		btnCancel.setMnemonic(KeyEvent.VK_C);
 		btnCancel.addActionListener(this);
-		btnApply = new JButton("Apply");
+		btnApply = new JButton(Language.get("dialog.apply"));
 		btnApply.setMnemonic(KeyEvent.VK_A);
 		btnApply.addActionListener(this);
 		

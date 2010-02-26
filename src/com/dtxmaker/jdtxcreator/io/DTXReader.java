@@ -35,244 +35,249 @@ public class DTXReader
 				
 				while ((line = reader.readLine()) != null)
 				{
-					line = line.trim();
-//					System.out.println(line);
-					
-					// TODO: read dtx content
-					if (line.isEmpty()) continue;			// blank
-					if (line.startsWith(";")) continue;		// comment
-					
-					/*
-					 * ----------------- BEGIN: reading general data -----------------
-					 */
-					
-					else if (tagExist(line, DTX.TITLE)) dtx.setTitle(getText(line, DTX.TITLE));
-					else if (tagExist(line, DTX.ARTIST)) dtx.setArtist(getText(line, DTX.ARTIST));
-					else if (tagExist(line, DTX.COMMENT)) dtx.setComment(getText(line, DTX.COMMENT));
-					else if (tagExist(line, DTX.PANEL)) dtx.setPanel(getText(line, DTX.PANEL));
-					else if (tagExist(line, DTX.GENRE)) dtx.setGenre(getText(line, DTX.GENRE));
-					
-					else if (tagExist(line, DTX.BPM)) dtx.setBpm(getDouble(line, DTX.BPM));
-					else if (tagExist(line, DTX.DTXVPLAYSPEED)) dtx.setPlaySpeed(getDouble(line, DTX.DTXVPLAYSPEED));
-					
-					else if (tagExist(line, DTX.DLEVEL)) dtx.setDrumLevel(getInteger(line, DTX.DLEVEL));
-					else if (tagExist(line, DTX.GLEVEL)) dtx.setGuitarLevel(getInteger(line, DTX.GLEVEL));
-					else if (tagExist(line, DTX.BLEVEL)) dtx.setBassLevel(getInteger(line, DTX.BLEVEL));
-					else if (tagExist(line, DTX.HIDDENLEVEL)) dtx.setHiddenLevel(getBoolean(line, DTX.HIDDENLEVEL));
-					
-					else if (tagExist(line, DTX.PREVIEW)) dtx.setPreviewSound(getText(line, DTX.PREVIEW));
-					else if (tagExist(line, DTX.PREIMAGE)) dtx.setPreviewImage(getText(line, DTX.PREIMAGE));
-					else if (tagExist(line, DTX.PREMOVIE)) dtx.setPreviewMovie(getText(line, DTX.PREMOVIE));
-					else if (tagExist(line, DTX.STAGEFILE)) dtx.setLoadingImage(getText(line, DTX.STAGEFILE));
-					else if (tagExist(line, DTX.BACKGROUND)) dtx.setBackgroundImage(getText(line, DTX.BACKGROUND));
-					else if (tagExist(line, DTX.RESULTIMAGE)) dtx.setResultImage(getText(line, DTX.RESULTIMAGE));
-					
-					/*
-					 * ----------------- END: reading general data -----------------
-					 */
-					
-					
-					/*
-					 * ----------------- BEGIN: reading sound data -----------------
-					 */
-					
-					else if (tagNumberExist(line, Audio.WAV))
+					try
 					{
-						String number = getNumberInTag(line, Audio.WAV);
-						Audio wav = hashSound.get(number);
+						line = line.trim();
 						
-						if (wav == null)
+						if (line.isEmpty()) continue;			// blank
+						if (line.startsWith(";")) continue;		// comment
+						
+						/*
+						 * ----------------- BEGIN: reading general data -----------------
+						 */
+						
+						else if (tagExist(line, DTX.TITLE)) dtx.setTitle(getText(line, DTX.TITLE));
+						else if (tagExist(line, DTX.ARTIST)) dtx.setArtist(getText(line, DTX.ARTIST));
+						else if (tagExist(line, DTX.COMMENT)) dtx.setComment(getText(line, DTX.COMMENT));
+						else if (tagExist(line, DTX.PANEL)) dtx.setPanel(getText(line, DTX.PANEL));
+						else if (tagExist(line, DTX.GENRE)) dtx.setGenre(getText(line, DTX.GENRE));
+						
+						else if (tagExist(line, DTX.BPM)) dtx.setBpm(getDouble(line, DTX.BPM));
+						else if (tagExist(line, DTX.DTXVPLAYSPEED)) dtx.setPlaySpeed(getDouble(line, DTX.DTXVPLAYSPEED));
+						
+						else if (tagExist(line, DTX.DLEVEL)) dtx.setDrumLevel(getInteger(line, DTX.DLEVEL));
+						else if (tagExist(line, DTX.GLEVEL)) dtx.setGuitarLevel(getInteger(line, DTX.GLEVEL));
+						else if (tagExist(line, DTX.BLEVEL)) dtx.setBassLevel(getInteger(line, DTX.BLEVEL));
+						else if (tagExist(line, DTX.HIDDENLEVEL)) dtx.setHiddenLevel(getBoolean(line, DTX.HIDDENLEVEL));
+						
+						else if (tagExist(line, DTX.PREVIEW)) dtx.setPreviewSound(getText(line, DTX.PREVIEW));
+						else if (tagExist(line, DTX.PREIMAGE)) dtx.setPreviewImage(getText(line, DTX.PREIMAGE));
+						else if (tagExist(line, DTX.PREMOVIE)) dtx.setPreviewMovie(getText(line, DTX.PREMOVIE));
+						else if (tagExist(line, DTX.STAGEFILE)) dtx.setLoadingImage(getText(line, DTX.STAGEFILE));
+						else if (tagExist(line, DTX.BACKGROUND)) dtx.setBackgroundImage(getText(line, DTX.BACKGROUND));
+						else if (tagExist(line, DTX.RESULTIMAGE)) dtx.setResultImage(getText(line, DTX.RESULTIMAGE));
+						
+						/*
+						 * ----------------- END: reading general data -----------------
+						 */
+						
+						
+						/*
+						 * ----------------- BEGIN: reading sound data -----------------
+						 */
+						
+						else if (tagNumberExist(line, Audio.WAV))
 						{
-							wav = new Audio();
-							wav.setNumber(number);
-							hashSound.put(number, wav);
+							String number = getNumberInTag(line, Audio.WAV);
+							Audio wav = hashSound.get(number);
+							
+							if (wav == null)
+							{
+								wav = new Audio();
+								wav.setNumber(number);
+								hashSound.put(number, wav);
+							}
+							
+							wav.setPath(getText(line, Audio.WAV + number));
+							wav.setLabel(getComment(line, Audio.WAV + number));
+						}
+						else if (tagNumberExist(line, Audio.VOLUME))
+						{
+							String number = getNumberInTag(line, Audio.VOLUME);
+							Audio wav = hashSound.get(number);
+							
+							if (wav == null)
+							{
+								wav = new Audio();
+								wav.setNumber(number);
+								hashSound.put(number, wav);
+							}
+							
+							wav.setVolume(getInteger(line, Audio.VOLUME + number));
+						}
+						else if (tagNumberExist(line, Audio.POSITION))
+						{
+							String number = getNumberInTag(line, Audio.POSITION);
+							Audio wav = hashSound.get(number);
+							
+							if (wav == null)
+							{
+								wav = new Audio();
+								wav.setNumber(number);
+								hashSound.put(number, wav);
+							}
+							
+							wav.setPosition(getInteger(line, Audio.POSITION + number));
+						}
+						else if (tagNumberExist(line, Audio.SIZE))
+						{
+							String number = getNumberInTag(line, Audio.SIZE);
+							Audio wav = hashSound.get(number);
+							
+							if (wav == null)
+							{
+								wav = new Audio();
+								wav.setNumber(number);
+								hashSound.put(number, wav);
+							}
+							
+							wav.setSize(getInteger(line, Audio.SIZE + number));
+						}
+						else if (tagExist(line, Audio.BGMWAV))
+						{
+							String number = getNumber(line, Audio.BGMWAV);
+							Audio wav = hashSound.get(number);
+							
+							if (wav == null)
+							{
+								wav = new Audio();
+								wav.setNumber(number);
+								hashSound.put(number, wav);
+							}
+							wav.setBgm(true);
 						}
 						
-						wav.setPath(getText(line, Audio.WAV + number));
-						wav.setLabel(getComment(line, Audio.WAV + number));
-					}
-					else if (tagNumberExist(line, Audio.VOLUME))
-					{
-						String number = getNumberInTag(line, Audio.VOLUME);
-						Audio wav = hashSound.get(number);
+						/*
+						 * ----------------- END: reading sound data -----------------
+						 */
 						
-						if (wav == null)
+						
+						/*
+						 * ----------------- BEGIN: reading video data -----------------
+						 */
+						
+						else if (tagNumberExist(line, Video.AVI))
 						{
-							wav = new Audio();
-							wav.setNumber(number);
-							hashSound.put(number, wav);
+							String number = getNumberInTag(line, Video.AVI);
+							Video avi = hashVideo.get(number);
+							
+							if (avi == null)
+							{
+								avi = new Video();
+								avi.setNumber(number);
+								hashVideo.put(number, avi);
+							}
+							
+							avi.setPath(getText(line, Audio.WAV + number));
+							avi.setLabel(getComment(line, Audio.WAV + number));
 						}
 						
-						wav.setVolume(getInteger(line, Audio.VOLUME + number));
-					}
-					else if (tagNumberExist(line, Audio.POSITION))
-					{
-						String number = getNumberInTag(line, Audio.POSITION);
-						Audio wav = hashSound.get(number);
+						/*
+						 * ----------------- END: reading video data -----------------
+						 */
 						
-						if (wav == null)
+						
+						/*
+						 * ----------------- BEGIN: reading image data -----------------
+						 */
+						
+						else if (tagNumberExist(line, Image.BMP))
 						{
-							wav = new Audio();
-							wav.setNumber(number);
-							hashSound.put(number, wav);
+							String number = getNumberInTag(line, Image.BMP);
+							Image bmp = hashImage.get(number);
+							
+							if (bmp == null)
+							{
+								bmp = new Image();
+								bmp.setNumber(number);
+								hashImage.put(number, bmp);
+							}
+							
+							bmp.setPath(getText(line, Image.BMP + number));
+							bmp.setLabel(getComment(line, Image.BMP + number));
+						}
+						else if (tagNumberExist(line, Image.BMP + Image.TEX))
+						{
+							String number = getNumberInTag(line, Image.BMP + Image.TEX);
+							Image bmp = hashImage.get(number);
+							
+							if (bmp == null)
+							{
+								bmp = new Image();
+								bmp.setNumber(number);
+								hashImage.put(number, bmp);
+							}
+							
+							bmp.setPath(getText(line, Image.BMP + Image.TEX + number));
+							bmp.setLabel(getComment(line, Image.BMP + Image.TEX + number));
+							bmp.setTexture(true);
 						}
 						
-						wav.setPosition(getInteger(line, Audio.POSITION + number));
-					}
-					else if (tagNumberExist(line, Audio.SIZE))
-					{
-						String number = getNumberInTag(line, Audio.SIZE);
-						Audio wav = hashSound.get(number);
+						/*
+						 * ----------------- END: reading image data -----------------
+						 */
 						
-						if (wav == null)
+						
+						/*
+						 * ----------------- BEGIN: reading bpm data -----------------
+						 */
+						
+						else if (tagNumberExist(line, BPM.BPM))
 						{
-							wav = new Audio();
-							wav.setNumber(number);
-							hashSound.put(number, wav);
+							String number = getNumberInTag(line, BPM.BPM);
+							BPM bmp = hashBpm.get(number);
+							
+							if (bmp == null)
+							{
+								bmp = new BPM();
+								bmp.setNumber(number);
+								hashBpm.put(number, bmp);
+							}
+							
+							bmp.setBpm(getInteger(line, Audio.WAV + number));
 						}
 						
-						wav.setSize(getInteger(line, Audio.SIZE + number));
-					}
-					else if (tagExist(line, Audio.BGMWAV))
-					{
-						String number = getNumber(line, Audio.BGMWAV);
-						Audio wav = hashSound.get(number);
+						/*
+						 * ----------------- END: reading bpm data -----------------
+						 */
 						
-						if (wav == null)
-						{
-							wav = new Audio();
-							wav.setNumber(number);
-							hashSound.put(number, wav);
-						}
-						wav.setBgm(true);
-					}
-					
-					/*
-					 * ----------------- END: reading sound data -----------------
-					 */
-					
-					
-					/*
-					 * ----------------- BEGIN: reading video data -----------------
-					 */
-					
-					else if (tagNumberExist(line, Video.AVI))
-					{
-						String number = getNumberInTag(line, Video.AVI);
-						Video avi = hashVideo.get(number);
+						// TODO: read bpm data
 						
-						if (avi == null)
+						/*
+						 * ----------------- BEGIN: reading score data -----------------
+						 */
+						
+						// TODO: read score data
+						else if (partNumberExist(line))
 						{
-							avi = new Video();
-							avi.setNumber(number);
-							hashVideo.put(number, avi);
+							String part = getPart(line);
+							int channel = getChannelInTag(line, "#" + part);
+							
+							
 						}
 						
-						avi.setPath(getText(line, Audio.WAV + number));
-						avi.setLabel(getComment(line, Audio.WAV + number));
-					}
-					
-					/*
-					 * ----------------- END: reading video data -----------------
-					 */
-					
-					
-					/*
-					 * ----------------- BEGIN: reading image data -----------------
-					 */
-					
-					else if (tagNumberExist(line, Image.BMP))
-					{
-						String number = getNumberInTag(line, Image.BMP);
-						Image bmp = hashImage.get(number);
+						/*
+						 * ----------------- END: reading score data -----------------
+						 */
 						
-						if (bmp == null)
+						
+						/*
+						 * ----------------- BEGIN: reading others data -----------------
+						 */
+						
+						else if (line.startsWith("#"))
 						{
-							bmp = new Image();
-							bmp.setNumber(number);
-							hashImage.put(number, bmp);
+							buffer.append(line + "\n");
 						}
 						
-						bmp.setPath(getText(line, Image.BMP + number));
-						bmp.setLabel(getComment(line, Image.BMP + number));
+						/*
+						 * ----------------- END: reading others data -----------------
+						 */
 					}
-					else if (tagNumberExist(line, Image.BMP + Image.TEX))
+					catch (Exception e)
 					{
-						String number = getNumberInTag(line, Image.BMP + Image.TEX);
-						Image bmp = hashImage.get(number);
-						
-						if (bmp == null)
-						{
-							bmp = new Image();
-							bmp.setNumber(number);
-							hashImage.put(number, bmp);
-						}
-						
-						bmp.setPath(getText(line, Image.BMP + Image.TEX + number));
-						bmp.setLabel(getComment(line, Image.BMP + Image.TEX + number));
-						bmp.setTexture(true);
+						e.printStackTrace();
 					}
-					
-					/*
-					 * ----------------- END: reading image data -----------------
-					 */
-					
-					
-					/*
-					 * ----------------- BEGIN: reading bpm data -----------------
-					 */
-					
-					else if (tagNumberExist(line, BPM.BPM))
-					{
-						String number = getNumberInTag(line, BPM.BPM);
-						BPM bmp = hashBpm.get(number);
-						
-						if (bmp == null)
-						{
-							bmp = new BPM();
-							bmp.setNumber(number);
-							hashBpm.put(number, bmp);
-						}
-						
-						bmp.setBpm(getInteger(line, Audio.WAV + number));
-					}
-					
-					/*
-					 * ----------------- END: reading bpm data -----------------
-					 */
-					
-					
-					/*
-					 * ----------------- BEGIN: reading score data -----------------
-					 */
-					
-					// TODO: read score data
-					else if (partNumberExist(line))
-					{
-						String part = getPart(line);
-						String number = getNumberInTag(line, "#" + part);
-						
-						
-					}
-					
-					/*
-					 * ----------------- END: reading score data -----------------
-					 */
-					
-					
-					/*
-					 * ----------------- BEGIN: reading others data -----------------
-					 */
-					
-					else if (line.startsWith("#"))
-					{
-						buffer.append(line + "\n");
-					}
-					
-					/*
-					 * ----------------- END: reading others data -----------------
-					 */
-					
 				}
 				
 				{
@@ -364,6 +369,12 @@ public class DTXReader
 	private static String getNumberInTag(String line, String tag)
 	{
 		return line.substring(tag.length(), tag.length() + 2);
+	}
+	
+	private static int getChannelInTag(String line, String tag)
+	{
+		String text = getNumberInTag(line, tag);
+		return Integer.parseInt(text, 16);
 	}
 	
 	private static String getPart(String line)
@@ -458,5 +469,15 @@ public class DTXReader
 		}
 
 		return value;
+	}
+	
+	private static int convertNumberToInt(String number)
+	{
+		return Integer.parseInt(number, 36);
+	}
+	
+	private static int convertChannelToInt(String channel)
+	{
+		return Integer.parseInt(channel, 16);
 	}
 }

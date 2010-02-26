@@ -18,24 +18,24 @@ import com.dtxmaker.jdtxcreator.ui.main.Menu;
 import com.dtxmaker.jdtxcreator.ui.main.Toolbar;
 import com.dtxmaker.jdtxcreator.ui.sidebar.SideBar;
 
-public class InternalChartManager extends JDesktopPane
+public class ChartFrameManager extends JDesktopPane
 {
 	private static final long serialVersionUID = 898342948470015613L;
 	
-	private static InternalChartManager instance;
+	private static ChartFrameManager instance;
 	
 	private Point lastLocation;
 	
 	/** <code>true</code> for edit mode, <code>false</code> for select mode. */
 	boolean mode = true;
 
-	public static InternalChartManager getInstance()
+	public static ChartFrameManager getInstance()
 	{
-		if (instance == null) instance = new InternalChartManager();
+		if (instance == null) instance = new ChartFrameManager();
 		return instance;
 	}
 	
-	private InternalChartManager()
+	private ChartFrameManager()
 	{
 		setBackground(Color.GRAY);
 		setDragMode(OUTLINE_DRAG_MODE);
@@ -46,7 +46,7 @@ public class InternalChartManager extends JDesktopPane
 	
 	public File getWorkingDir()
 	{
-		InternalChart chart = getSelectedChart();
+		ChartFrame chart = getSelectedChart();
 		File programDir = new File("").getAbsoluteFile();
 		
 		if (chart == null) return programDir;
@@ -89,7 +89,7 @@ public class InternalChartManager extends JDesktopPane
 			
 			if (dtx == null) continue;
 			
-			InternalChart chart = new InternalChart(dtx);
+			ChartFrame chart = new ChartFrame(dtx);
 			chart.setFile(files[i]);
 			addChart(chart);
 		}
@@ -97,7 +97,7 @@ public class InternalChartManager extends JDesktopPane
 	
 	public void save()
 	{
-		InternalChart chart = getSelectedChart();
+		ChartFrame chart = getSelectedChart();
 		
 		if (chart == null) return;
 		
@@ -106,7 +106,7 @@ public class InternalChartManager extends JDesktopPane
 	
 	public void saveAs()
 	{
-		InternalChart chart = getSelectedChart();
+		ChartFrame chart = getSelectedChart();
 		
 		if (chart == null) return;
 		
@@ -115,7 +115,7 @@ public class InternalChartManager extends JDesktopPane
 	
 	public void saveAll()
 	{
-		InternalChart[] charts = InternalChartManager.getInstance().getAllCharts();
+		ChartFrame[] charts = getAllCharts();
 		
 		if (charts == null) return;
 		
@@ -138,7 +138,7 @@ public class InternalChartManager extends JDesktopPane
 	 * @param chart the chart to be closed.
 	 * @return <code>true</code> if chart is closed.
 	 */
-	public boolean close(InternalChart chart)
+	public boolean close(ChartFrame chart)
 	{
 		if (chart == null) return true;
 		
@@ -167,7 +167,7 @@ public class InternalChartManager extends JDesktopPane
 	 */
 	public boolean closeAll()
 	{
-		InternalChart[] charts = getAllCharts();
+		ChartFrame[] charts = getAllCharts();
 		
 		if (charts != null)
 		{
@@ -180,22 +180,22 @@ public class InternalChartManager extends JDesktopPane
 		return true;
 	}
 	
-	public InternalChart getSelectedChart()
+	public ChartFrame getSelectedChart()
 	{
 		JInternalFrame frame = getSelectedFrame();
 		if (frame == null) return null;
-		return (InternalChart) frame;
+		return (ChartFrame) frame;
 	}
 	
-	public InternalChart[] getAllCharts()
+	public ChartFrame[] getAllCharts()
 	{
 		JInternalFrame[] frames = getAllFrames();
 		if (frames == null || frames.length == 0) return null;
-		InternalChart[] charts = new InternalChart[frames.length];
+		ChartFrame[] charts = new ChartFrame[frames.length];
 		
 		for (int i = 0; i < charts.length; i++)
 		{
-			charts[i] = (InternalChart) frames[i];
+			charts[i] = (ChartFrame) frames[i];
 		}
 		
 		return charts;
@@ -203,10 +203,10 @@ public class InternalChartManager extends JDesktopPane
 	
 	public void newChart()
 	{
-		addChart(new InternalChart());
+		addChart(new ChartFrame());
 	}
 	
-	public void addChart(InternalChart chart)
+	public void addChart(ChartFrame chart)
 	{
 		add(chart);
 		putChart(chart, lastLocation);
@@ -353,5 +353,32 @@ public class InternalChartManager extends JDesktopPane
 	public void tileVertically()
 	{
 		
+	}
+	
+	@Override
+	public Dimension getPreferredSize()
+	{
+		JInternalFrame[] frames = getAllFrames();
+		
+		if (frames == null) super.getPreferredSize();
+		
+		int x1 = 0;		// the left most x point
+		int y1 = 0;		// the top most y point 
+		int x2 = 0;		// the right most x point
+		int y2 = 0;		// the lowest y point
+		
+		for (int i = 0; i < frames.length; i++)
+		{
+			Point point1 = frames[i].getLocation();
+			Dimension size = frames[i].getSize();
+			Point point2 = new Point(point1.x + size.width, point1.y + size.height);
+			
+			if (point1.x < x1) x1 = point1.x;
+			if (point1.y < y1) y1 = point1.y;
+			if (point2.x > x2) x2 = point2.x;
+			if (point2.y > y2) y2 = point2.y;
+		}
+		
+		return new Dimension(x2 - x1, y2 - y1);
 	}
 }

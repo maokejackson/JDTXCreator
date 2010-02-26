@@ -27,6 +27,7 @@ public class JDTXCreator extends JFrame
 //		getRootPane().setWindowDecorationStyle(JRootPane.FRAME);
 		
 		setJMenuBar(Menu.getInstance());
+//		getContentPane().add(Main.getInstance());
 		setContentPane(Main.getInstance());
 		
 		setSize(800, 600);

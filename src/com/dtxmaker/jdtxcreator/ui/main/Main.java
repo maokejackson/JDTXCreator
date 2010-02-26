@@ -6,10 +6,11 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 
 import com.dtxmaker.jdtxcreator.Settings;
-import com.dtxmaker.jdtxcreator.ui.chart.InternalChartManager;
+import com.dtxmaker.jdtxcreator.ui.chart.ChartFrameManager;
 import com.dtxmaker.jdtxcreator.ui.sidebar.SideBar;
 
 public class Main extends JPanel
@@ -21,7 +22,8 @@ public class Main extends JPanel
 	Toolbar toolbar;
 	StatusBar statusBar;
 	SideBar sideBar;
-	InternalChartManager charts;
+	ChartFrameManager charts;
+	JScrollPane scrollPane;
 	
 	JSplitPane splitPane;
 
@@ -38,7 +40,11 @@ public class Main extends JPanel
 		toolbar = Toolbar.getInstance();
 		statusBar = StatusBar.getInstance();
 		sideBar = SideBar.getInstance();
-		charts = InternalChartManager.getInstance();
+		charts = ChartFrameManager.getInstance();
+		scrollPane = new JScrollPane(charts);
+		scrollPane.setBorder(null);
+		scrollPane.getVerticalScrollBar().setUnitIncrement(10);
+		scrollPane.getHorizontalScrollBar().setUnitIncrement(10);
 		
 		splitPane = new JSplitPane();
 		splitPane.addPropertyChangeListener(new PropertyChangeListener()
@@ -61,11 +67,11 @@ public class Main extends JPanel
 		if (onLeft)
 		{
 			splitPane.setLeftComponent(sideBar);
-			splitPane.setRightComponent(charts);
+			splitPane.setRightComponent(scrollPane);
 		}
 		else
 		{
-			splitPane.setLeftComponent(charts);
+			splitPane.setLeftComponent(scrollPane);
 			splitPane.setRightComponent(sideBar);
 		}
 		
@@ -96,7 +102,7 @@ public class Main extends JPanel
 	
 	public void exit()
 	{
-		if (!InternalChartManager.getInstance().closeAll()) return;
+		if (!ChartFrameManager.getInstance().closeAll()) return;
 		Settings.store();
 		System.exit(0);
 	}

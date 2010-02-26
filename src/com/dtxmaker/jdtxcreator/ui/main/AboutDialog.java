@@ -11,6 +11,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import com.dtxmaker.jdtxcreator.JDTXCreator;
+import com.dtxmaker.jdtxcreator.Language;
 import com.dtxmaker.jdtxcreator.ui.AbstractDialog;
 
 public class AboutDialog extends AbstractDialog implements ActionListener
@@ -20,7 +21,7 @@ public class AboutDialog extends AbstractDialog implements ActionListener
 	private static AboutDialog instance;
 	
 	JLabel lblProgram, lblVersion, lblRelease, lblAuthor, lblThanks, lblOthers;
-	JButton btnClose;
+	JButton btnOk;
 
 	public static AboutDialog getInstance()
 	{
@@ -65,11 +66,11 @@ public class AboutDialog extends AbstractDialog implements ActionListener
 		aboutPanel.add(new JLabel(""), "1, 11");
 		aboutPanel.add(lblOthers, "3, 11");
 		
-		btnClose = new JButton("Close");
-		btnClose.addActionListener(this);
+		btnOk = new JButton(Language.get("dialog.ok"));
+		btnOk.addActionListener(this);
 
 		JPanel buttonPanel = new JPanel();
-		buttonPanel.add(btnClose);
+		buttonPanel.add(btnOk);
 		
 		add(aboutPanel, BorderLayout.CENTER);
 		add(buttonPanel, BorderLayout.SOUTH);
@@ -90,6 +91,6 @@ public class AboutDialog extends AbstractDialog implements ActionListener
 	{
 		Object obj = e.getSource();
 		
-		if (obj == btnClose) setVisible(false);
+		if (obj == btnOk) setVisible(false);
 	}
 }
