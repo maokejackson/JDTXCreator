@@ -172,10 +172,20 @@ public abstract class AbstractTableTab<E> extends AbstractTab
 		}
 	}
 	
+	/**
+	 * Returns the model index of the first selected row, -1 if no row is selected.
+	 * 
+	 * @return the model index of the first selected row
+	 */
+	public int getSelectedRow()
+	{
+		return table.convertRowIndexToModel(table.getSelectedRow());
+	}
+	
 	/** Move row up. */
 	private void moveUp()
 	{
-		int src = table.getSelectedRow();
+		int src = getSelectedRow();
 		int target = src - 1;
 		swapRow(src, target);
 	}
@@ -183,7 +193,7 @@ public abstract class AbstractTableTab<E> extends AbstractTab
 	/** Move row down. */
 	private void moveDown()
 	{
-		int src = table.getSelectedRow();
+		int src = getSelectedRow();
 		int target = src + 1;
 		swapRow(src, target);
 	}
@@ -227,7 +237,7 @@ public abstract class AbstractTableTab<E> extends AbstractTab
 	 */
 	public E getSelectedData()
 	{
-		int row = table.getSelectedRow();
+		int row = getSelectedRow();
 		if (row == -1) return null;
 		return getDataAt(row);
 	}

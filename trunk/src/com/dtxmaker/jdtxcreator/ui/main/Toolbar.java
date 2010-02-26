@@ -9,9 +9,10 @@ import javax.swing.JComboBox;
 import javax.swing.JToggleButton;
 import javax.swing.JToolBar;
 
+import com.dtxmaker.jdtxcreator.Language;
 import com.dtxmaker.jdtxcreator.ui.ToolbarButton;
 import com.dtxmaker.jdtxcreator.ui.ToolbarToggleButton;
-import com.dtxmaker.jdtxcreator.ui.chart.InternalChartManager;
+import com.dtxmaker.jdtxcreator.ui.chart.ChartFrameManager;
 
 public class Toolbar extends JToolBar implements ActionListener
 {
@@ -40,51 +41,51 @@ public class Toolbar extends JToolBar implements ActionListener
 		setFloatable(false);
 		setRollover(true);
 		
-		btnNew = new ToolbarButton("images/new.png", "Create a new file");
-		btnOpen = new ToolbarButton("images/open.png", "Open file(s)");
-		btnSave = new ToolbarButton("images/save.png", "Save to file");
-		btnSaveAll = new ToolbarButton("images/save_all.png", "Save all files");
+		btnNew = new ToolbarButton("images/new.png", Language.get("toolbar.tooltip.new"));
+		btnOpen = new ToolbarButton("images/open.png", Language.get("toolbar.tooltip.open"));
+		btnSave = new ToolbarButton("images/save.png", Language.get("toolbar.tooltip.save"));
+		btnSaveAll = new ToolbarButton("images/save_all.png", Language.get("toolbar.tooltip.save_all"));
 		
 		btnNew.addActionListener(this);
 		btnOpen.addActionListener(this);
 		btnSave.addActionListener(this);
 		btnSaveAll.addActionListener(this);
 		
-		btnCut = new ToolbarButton("images/cut.png", "Cut selected note(s)");
-		btnCopy = new ToolbarButton("images/copy.png", "Copy selected note(s)");
-		btnPaste = new ToolbarButton("images/paste.png", "Paste note(s)");
-		btnDelete = new ToolbarButton("images/delete.png", "Delete selected note(s)");
+		btnCut = new ToolbarButton("images/cut.png", Language.get("toolbar.tooltip.cut"));
+		btnCopy = new ToolbarButton("images/copy.png", Language.get("toolbar.tooltip.copy"));
+		btnPaste = new ToolbarButton("images/paste.png", Language.get("toolbar.tooltip.paste"));
+		btnDelete = new ToolbarButton("images/delete.png", Language.get("toolbar.tooltip.delete"));
 		
 		btnCut.addActionListener(this);
 		btnCopy.addActionListener(this);
 		btnPaste.addActionListener(this);
 		btnDelete.addActionListener(this);
 
-		btnUndo = new ToolbarButton("images/undo.png", "Undo");
-		btnRedo = new ToolbarButton("images/redo.png", "Redo");
+		btnUndo = new ToolbarButton("images/undo.png", Language.get("toolbar.tooltip.undo"));
+		btnRedo = new ToolbarButton("images/redo.png", Language.get("toolbar.tooltip.redo"));
 
 		btnUndo.addActionListener(this);
 		btnRedo.addActionListener(this);
 
-		btnZoomIn = new ToolbarButton("images/zoom_in.png", "Zoom in");
-		btnZoomOut = new ToolbarButton("images/zoom_out.png", "Zoom out");
+		btnZoomIn = new ToolbarButton("images/zoom_in.png", Language.get("toolbar.tooltip.zoom_in"));
+		btnZoomOut = new ToolbarButton("images/zoom_out.png", Language.get("toolbar.tooltip.zoom_out"));
 
 		btnZoomIn.addActionListener(this);
 		btnZoomOut.addActionListener(this);
 		
-		btnSelectMode = new ToolbarToggleButton("images/select.png", "Select mode");
-		btnEditMode = new ToolbarToggleButton("images/edit.png", "Edit mode");
+		btnSelectMode = new ToolbarToggleButton("images/select.png", Language.get("toolbar.tooltip.select_mode"));
+		btnEditMode = new ToolbarToggleButton("images/edit.png", Language.get("toolbar.tooltip.edit_mode"));
 //		btnEditMode.setSelected(true);
 
 		btnSelectMode.addActionListener(this);
 		btnEditMode.addActionListener(this);
 
-		btnPlay = new ToolbarButton("images/play_start.png", "Play from start");
-		btnPlayCurrent = new ToolbarButton("images/play.png", "Play from current part");
-		btnStop = new ToolbarButton("images/stop.png", "Stop playing");
-		btnBgmSound = new ToolbarToggleButton("images/bgm_sound.png", "Play with bgm sound");
+		btnPlay = new ToolbarButton("images/play_start.png", Language.get("toolbar.tooltip.play_from_start"));
+		btnPlayCurrent = new ToolbarButton("images/play.png", Language.get("toolbar.tooltip.play_from_current_part"));
+		btnStop = new ToolbarButton("images/stop.png", Language.get("toolbar.tooltip.stop"));
+		btnBgmSound = new ToolbarToggleButton("images/bgm_sound.png", Language.get("toolbar.tooltip.bgm_sound"));
 		btnBgmSound.setSelected(true);
-		btnNoteSound = new ToolbarToggleButton("images/note_sound.png", "Play with note sound");
+		btnNoteSound = new ToolbarToggleButton("images/note_sound.png", Language.get("toolbar.tooltip.note_sound"));
 		btnNoteSound.setSelected(true);
 
 		btnPlay.addActionListener(this);
@@ -95,11 +96,11 @@ public class Toolbar extends JToolBar implements ActionListener
 		
 		String[] margin = { "1/4", "1/8", "1/16", "1/24", "1/32", "1/48", "1/64", "free" };
 		cbxMargin = new JComboBox(margin);
-		cbxMargin.setToolTipText("Select margin");
+		cbxMargin.setToolTipText(Language.get("toolbar.tooltip.margin"));
 		
 		Double[] speed = { 1.0, 0.9, 0.8, 0.7, 0.6, 0.5, 0.4, 0.3 };
 		cbxPlaySpeed = new JComboBox(speed);
-		cbxPlaySpeed.setToolTipText("Play speed (#DTXVPLAYSPEED)");
+		cbxPlaySpeed.setToolTipText(Language.get("toolbar.tooltip.play_speed"));
 		
 		grpMode = new ButtonGroup();
 		grpMode.add(btnEditMode);
@@ -165,10 +166,10 @@ public class Toolbar extends JToolBar implements ActionListener
 	{
 		Object obj = e.getSource();
 		
-		if (obj == btnNew) InternalChartManager.getInstance().newChart();
-		else if (obj == btnOpen) InternalChartManager.getInstance().open();
-		else if (obj == btnSave) InternalChartManager.getInstance().save();
-		else if (obj == btnSaveAll) InternalChartManager.getInstance().saveAll();
+		if (obj == btnNew) ChartFrameManager.getInstance().newChart();
+		else if (obj == btnOpen) ChartFrameManager.getInstance().open();
+		else if (obj == btnSave) ChartFrameManager.getInstance().save();
+		else if (obj == btnSaveAll) ChartFrameManager.getInstance().saveAll();
 		
 		else if (obj == btnCut) ;
 		else if (obj == btnCopy) ;
@@ -181,8 +182,8 @@ public class Toolbar extends JToolBar implements ActionListener
 		else if (obj == btnZoomIn) ;
 		else if (obj == btnZoomOut) ;
 
-		else if (obj == btnSelectMode) InternalChartManager.getInstance().setMode(false);
-		else if (obj == btnEditMode) InternalChartManager.getInstance().setMode(true);
+		else if (obj == btnSelectMode) ChartFrameManager.getInstance().setMode(false);
+		else if (obj == btnEditMode) ChartFrameManager.getInstance().setMode(true);
 
 		else if (obj == btnPlay) ;
 		else if (obj == btnPlayCurrent) ;

@@ -18,7 +18,6 @@ public class Table extends JXTable
 {
 	private static final long serialVersionUID = -7068369945098872249L;
 	
-	JXTable table;
 	DefaultTableModel model;
 	
 	public Table()

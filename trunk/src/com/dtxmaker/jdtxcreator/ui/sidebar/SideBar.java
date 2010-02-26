@@ -2,6 +2,7 @@ package com.dtxmaker.jdtxcreator.ui.sidebar;
 
 import javax.swing.JTabbedPane;
 
+import com.dtxmaker.jdtxcreator.Language;
 import com.dtxmaker.jdtxcreator.data.DTX;
 
 public class SideBar extends JTabbedPane
@@ -26,11 +27,11 @@ public class SideBar extends JTabbedPane
 	private SideBar()
 	{
 		setFocusable(false); 
-		add("General", general = GeneralTab.getInstance());
-		add("Audio", audio = AudioTab.getInstance());
-		add("Image", image = ImageTab.getInstance());
-		add("Video", video = VideoTab.getInstance());
-		add("Free", free = FreeTab.getInstance());
+		add(Language.get("sidebar.tab.general"), general = GeneralTab.getInstance());
+		add(Language.get("sidebar.tab.audio"), audio = AudioTab.getInstance());
+		add(Language.get("sidebar.tab.image"), image = ImageTab.getInstance());
+		add(Language.get("sidebar.tab.video"), video = VideoTab.getInstance());
+		add(Language.get("sidebar.tab.free"), free = FreeTab.getInstance());
 		bpm = BpmTab.getInstance();
 	}
 	

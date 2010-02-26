@@ -15,9 +15,10 @@ import javax.swing.JMenuItem;
 import javax.swing.JRadioButtonMenuItem;
 import javax.swing.KeyStroke;
 
+import com.dtxmaker.jdtxcreator.Language;
 import com.dtxmaker.jdtxcreator.Settings;
 import com.dtxmaker.jdtxcreator.ui.InternalFrameMenuItem;
-import com.dtxmaker.jdtxcreator.ui.chart.InternalChartManager;
+import com.dtxmaker.jdtxcreator.ui.chart.ChartFrameManager;
 
 public class Menu extends JMenuBar implements ActionListener
 {
@@ -51,36 +52,36 @@ public class Menu extends JMenuBar implements ActionListener
 
 	private Menu()
 	{
-		mnuFile = new JMenu("File");
+		mnuFile = new JMenu(Language.get("menu.file"));
 		mnuFile.setMnemonic(KeyEvent.VK_F);
-		mnuEdit = new JMenu("Edit");
+		mnuEdit = new JMenu(Language.get("menu.edit"));
 		mnuEdit.setMnemonic(KeyEvent.VK_E);
-		mnuView = new JMenu("View");
+		mnuView = new JMenu(Language.get("menu.view"));
 		mnuView.setMnemonic(KeyEvent.VK_V);
-		mnuPlay = new JMenu("Play");
+		mnuPlay = new JMenu(Language.get("menu.play"));
 		mnuPlay.setMnemonic(KeyEvent.VK_P);
-		mnuWindow = new JMenu("Window");
+		mnuWindow = new JMenu(Language.get("menu.window"));
 		mnuWindow.setMnemonic(KeyEvent.VK_W);
-		mnuHelp = new JMenu("Help");
+		mnuHelp = new JMenu(Language.get("menu.help"));
 		mnuHelp.setMnemonic(KeyEvent.VK_H);
 		
-		itmNew = new JMenuItem("New", KeyEvent.VK_N);
+		itmNew = new JMenuItem(Language.get("menu.file.new"), KeyEvent.VK_N);
 		itmNew.setIcon(new ImageIcon("images/new.png"));
 		itmNew.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, ActionEvent.CTRL_MASK));
-		itmOpen = new JMenuItem("Open...", KeyEvent.VK_O);
+		itmOpen = new JMenuItem(Language.get("menu.file.open"), KeyEvent.VK_O);
 		itmOpen.setIcon(new ImageIcon("images/open.png"));
 		itmOpen.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, ActionEvent.CTRL_MASK));
-		itmSave = new JMenuItem("Save", KeyEvent.VK_S);
+		itmSave = new JMenuItem(Language.get("menu.file.save"), KeyEvent.VK_S);
 		itmSave.setIcon(new ImageIcon("images/save.png"));
 		itmSave.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, ActionEvent.CTRL_MASK));
-		itmSaveAs = new JMenuItem("Save as...", KeyEvent.VK_A);
-		itmSaveAll = new JMenuItem("Save all", KeyEvent.VK_E);
+		itmSaveAs = new JMenuItem(Language.get("menu.file.save_as"), KeyEvent.VK_A);
+		itmSaveAll = new JMenuItem(Language.get("menu.file.save_all"), KeyEvent.VK_E);
 		itmSaveAll.setIcon(new ImageIcon("images/save_all.png"));
 		itmSaveAll.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, ActionEvent.CTRL_MASK | ActionEvent.SHIFT_MASK));
-		itmClose = new JMenuItem("Close", KeyEvent.VK_C);
+		itmClose = new JMenuItem(Language.get("menu.file.close"), KeyEvent.VK_C);
 		itmClose.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_W, ActionEvent.CTRL_MASK));
-		itmCloseAll = new JMenuItem("Close all", KeyEvent.VK_L);
-		itmExit = new JMenuItem("Exit", KeyEvent.VK_X);
+		itmCloseAll = new JMenuItem(Language.get("menu.file.close_all"), KeyEvent.VK_L);
+		itmExit = new JMenuItem(Language.get("menu.file.exit"), KeyEvent.VK_X);
 		
 		mnuFile.add(itmNew).addActionListener(this);
 		mnuFile.add(itmOpen).addActionListener(this);
@@ -94,45 +95,45 @@ public class Menu extends JMenuBar implements ActionListener
 		mnuFile.addSeparator();
 		mnuFile.add(itmExit).addActionListener(this);
 		
-		itmUndo = new JMenuItem("Undo", KeyEvent.VK_U);
+		itmUndo = new JMenuItem(Language.get("menu.edit.undo"), KeyEvent.VK_U);
 		itmUndo.setIcon(new ImageIcon("images/undo.png"));
 		itmUndo.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Z, ActionEvent.CTRL_MASK));
-		itmRedo = new JMenuItem("Redo", KeyEvent.VK_R);
+		itmRedo = new JMenuItem(Language.get("menu.edit.redo"), KeyEvent.VK_R);
 		itmRedo.setIcon(new ImageIcon("images/redo.png"));
 		itmRedo.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Y, ActionEvent.CTRL_MASK));
 		
-		itmCut = new JMenuItem("Cut", KeyEvent.VK_T);
+		itmCut = new JMenuItem(Language.get("menu.edit.cut"), KeyEvent.VK_T);
 		itmCut.setIcon(new ImageIcon("images/cut.png"));
 		itmCut.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_X, ActionEvent.CTRL_MASK));
-		itmCopy = new JMenuItem("Copy", KeyEvent.VK_C);
+		itmCopy = new JMenuItem(Language.get("menu.edit.copy"), KeyEvent.VK_C);
 		itmCopy.setIcon(new ImageIcon("images/copy.png"));
 		itmCopy.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_C, ActionEvent.CTRL_MASK));
-		itmPaste = new JMenuItem("Paste", KeyEvent.VK_P);
+		itmPaste = new JMenuItem(Language.get("menu.edit.paste"), KeyEvent.VK_P);
 		itmPaste.setIcon(new ImageIcon("images/paste.png"));
 		itmPaste.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_V, ActionEvent.CTRL_MASK));
-		itmDelete = new JMenuItem("Delete", KeyEvent.VK_D);
+		itmDelete = new JMenuItem(Language.get("menu.edit.delete"), KeyEvent.VK_D);
 		itmDelete.setIcon(new ImageIcon("images/delete.png"));
 		
-		itmSelectAll = new JMenuItem("Select All", KeyEvent.VK_A);
+		itmSelectAll = new JMenuItem(Language.get("menu.edit.select_all"), KeyEvent.VK_A);
 		itmSelectAll.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_A, ActionEvent.CTRL_MASK));
 		
-		itmSelectMode = new JRadioButtonMenuItem("Select Mode");
+		itmSelectMode = new JRadioButtonMenuItem(Language.get("menu.edit.select_mode"));
 		itmSelectMode.setMnemonic(KeyEvent.VK_S);
 		itmSelectMode.setIcon(new ImageIcon("images/select.png"));
-		itmEditMode = new JRadioButtonMenuItem("Edit Mode");
+		itmEditMode = new JRadioButtonMenuItem(Language.get("menu.edit.edit_mode"));
 		itmEditMode.setMnemonic(KeyEvent.VK_E);
 		itmEditMode.setIcon(new ImageIcon("images/edit.png"));
 //		itmEditMode.setSelected(true);
-		itmChangeMode = new JMenuItem("Change Mode", KeyEvent.VK_M);
+		itmChangeMode = new JMenuItem(Language.get("menu.edit.change_mode"), KeyEvent.VK_M);
 		itmChangeMode.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F8, 0));
 		
 		ButtonGroup grpMode = new ButtonGroup();
 		grpMode.add(itmSelectMode);
 		grpMode.add(itmEditMode);
 		
-		itmFind = new JMenuItem("Find...", KeyEvent.VK_F);
+		itmFind = new JMenuItem(Language.get("menu.edit.find"), KeyEvent.VK_F);
 		itmFind.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F, ActionEvent.CTRL_MASK));
-		itmReplace = new JMenuItem("Replace...", KeyEvent.VK_H);
+		itmReplace = new JMenuItem(Language.get("menu.edit.replace"), KeyEvent.VK_H);
 		itmReplace.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_H, ActionEvent.CTRL_MASK));
 		
 		mnuEdit.add(itmUndo).addActionListener(this);
@@ -152,13 +153,13 @@ public class Menu extends JMenuBar implements ActionListener
 		mnuEdit.add(itmFind).addActionListener(this);
 		mnuEdit.add(itmReplace).addActionListener(this);
 		
-		itmSideBarOnLeft = new JCheckBoxMenuItem("Sidebar on left");
+		itmSideBarOnLeft = new JCheckBoxMenuItem(Language.get("menu.view.sidebar_on_left"));
 		itmSideBarOnLeft.setMnemonic(KeyEvent.VK_S);
 		itmSideBarOnLeft.setSelected(Settings.getSidebarPosition());
-		itmZoomIn = new JMenuItem("Zoom In", KeyEvent.VK_I);
+		itmZoomIn = new JMenuItem(Language.get("menu.view.zoom_in"), KeyEvent.VK_I);
 		itmZoomIn.setIcon(new ImageIcon("images/zoom_in.png"));
 		itmZoomIn.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_I, ActionEvent.CTRL_MASK));
-		itmZoomOut = new JMenuItem("Zoom Out", KeyEvent.VK_O);
+		itmZoomOut = new JMenuItem(Language.get("menu.view.zoom_out"), KeyEvent.VK_O);
 		itmZoomOut.setIcon(new ImageIcon("images/zoom_out.png"));
 		itmZoomOut.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_U, ActionEvent.CTRL_MASK));
 		
@@ -167,20 +168,20 @@ public class Menu extends JMenuBar implements ActionListener
 		mnuView.add(itmZoomIn).addActionListener(this);
 		mnuView.add(itmZoomOut).addActionListener(this);
 		
-		itmPlay = new JMenuItem("Play from start", KeyEvent.VK_T);
+		itmPlay = new JMenuItem(Language.get("menu.play.play_from_start"), KeyEvent.VK_T);
 		itmPlay.setIcon(new ImageIcon("images/play_start.png"));
 		itmPlay.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F5, 0));
-		itmPlayCurrent = new JMenuItem("Play from current part", KeyEvent.VK_P);
+		itmPlayCurrent = new JMenuItem(Language.get("menu.play.play_from_current_part"), KeyEvent.VK_P);
 		itmPlayCurrent.setIcon(new ImageIcon("images/play.png"));
 		itmPlayCurrent.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F6, 0));
-		itmStop = new JMenuItem("Stop", KeyEvent.VK_S);
+		itmStop = new JMenuItem(Language.get("menu.play.stop"), KeyEvent.VK_S);
 		itmStop.setIcon(new ImageIcon("images/stop.png"));
 		itmStop.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F7, 0));
-		itmBgmSound = new JCheckBoxMenuItem("Bgm sound");
+		itmBgmSound = new JCheckBoxMenuItem(Language.get("menu.play.bgm_sound"));
 		itmBgmSound.setIcon(new ImageIcon("images/bgm_sound.png"));
 		itmBgmSound.setMnemonic(KeyEvent.VK_B);
 		itmBgmSound.setSelected(true);
-		itmNoteSound = new JCheckBoxMenuItem("Note sound");
+		itmNoteSound = new JCheckBoxMenuItem(Language.get("menu.play.note_sound"));
 		itmNoteSound.setIcon(new ImageIcon("images/note_sound.png"));
 		itmNoteSound.setMnemonic(KeyEvent.VK_N);
 		itmNoteSound.setSelected(true);
@@ -192,11 +193,11 @@ public class Menu extends JMenuBar implements ActionListener
 		mnuPlay.add(itmBgmSound).addActionListener(this);
 		mnuPlay.add(itmNoteSound).addActionListener(this);
 		
-		itmCascade = new JMenuItem("Cascade", KeyEvent.VK_C);
+		itmCascade = new JMenuItem(Language.get("menu.window.cascade"), KeyEvent.VK_C);
 		itmCascade.setIcon(new ImageIcon("images/cascade.png"));
-		itmTileH = new JMenuItem("Tile Horizontally", KeyEvent.VK_H);
+		itmTileH = new JMenuItem(Language.get("menu.window.tile_horizontally"), KeyEvent.VK_H);
 		itmTileH.setIcon(new ImageIcon("images/tile_horizontal.png"));
-		itmTileV = new JMenuItem("Tile Vertically", KeyEvent.VK_V);
+		itmTileV = new JMenuItem(Language.get("menu.window.tile_vertically"), KeyEvent.VK_V);
 		itmTileV.setIcon(new ImageIcon("images/tile_vertical.png"));
 		grpWindows = new ButtonGroup();
 		charts = new Hashtable<JInternalFrame, InternalFrameMenuItem>();
@@ -206,7 +207,7 @@ public class Menu extends JMenuBar implements ActionListener
 		mnuWindow.add(itmTileV).addActionListener(this);
 		mnuWindow.addSeparator();
 		
-		itmAbout = new JMenuItem("About", KeyEvent.VK_A);
+		itmAbout = new JMenuItem(Language.get("menu.help.about"), KeyEvent.VK_A);
 		
 		mnuHelp.add(itmAbout).addActionListener(this);
 		
@@ -288,13 +289,13 @@ public class Menu extends JMenuBar implements ActionListener
 	{
 		Object obj = e.getSource();
 		
-		if (obj == itmNew) InternalChartManager.getInstance().newChart();
-		else if (obj == itmOpen) InternalChartManager.getInstance().open();
-		else if (obj == itmSave) InternalChartManager.getInstance().save();
-		else if (obj == itmSaveAs) InternalChartManager.getInstance().saveAs();
-		else if (obj == itmSaveAll) InternalChartManager.getInstance().saveAll();
-		else if (obj == itmClose) InternalChartManager.getInstance().close();
-		else if (obj == itmCloseAll) InternalChartManager.getInstance().closeAll();
+		if (obj == itmNew) ChartFrameManager.getInstance().newChart();
+		else if (obj == itmOpen) ChartFrameManager.getInstance().open();
+		else if (obj == itmSave) ChartFrameManager.getInstance().save();
+		else if (obj == itmSaveAs) ChartFrameManager.getInstance().saveAs();
+		else if (obj == itmSaveAll) ChartFrameManager.getInstance().saveAll();
+		else if (obj == itmClose) ChartFrameManager.getInstance().close();
+		else if (obj == itmCloseAll) ChartFrameManager.getInstance().closeAll();
 		else if (obj == itmExit) Main.getInstance().exit();
 		
 		else if (obj == itmUndo) ;
@@ -305,9 +306,9 @@ public class Menu extends JMenuBar implements ActionListener
 		else if (obj == itmDelete) ;
 		
 		else if (obj == itmSelectAll) ;
-		else if (obj == itmSelectMode) InternalChartManager.getInstance().setMode(false);
-		else if (obj == itmEditMode) InternalChartManager.getInstance().setMode(true);
-		else if (obj == itmChangeMode) InternalChartManager.getInstance().switchMode();
+		else if (obj == itmSelectMode) ChartFrameManager.getInstance().setMode(false);
+		else if (obj == itmEditMode) ChartFrameManager.getInstance().setMode(true);
+		else if (obj == itmChangeMode) ChartFrameManager.getInstance().switchMode();
 		else if (obj == itmFind) ;
 		else if (obj == itmReplace) ;
 		
@@ -321,9 +322,9 @@ public class Menu extends JMenuBar implements ActionListener
 		else if (obj == itmBgmSound) Toolbar.getInstance().setBgmSound(itmBgmSound.isSelected());
 		else if (obj == itmNoteSound) Toolbar.getInstance().setNoteSound(itmNoteSound.isSelected());
 
-		else if (obj == itmCascade) InternalChartManager.getInstance().cascade();
-		else if (obj == itmTileH) InternalChartManager.getInstance().tileHorizontally();
-		else if (obj == itmTileV) InternalChartManager.getInstance().tileVertically();
+		else if (obj == itmCascade) ChartFrameManager.getInstance().cascade();
+		else if (obj == itmTileH) ChartFrameManager.getInstance().tileHorizontally();
+		else if (obj == itmTileV) ChartFrameManager.getInstance().tileVertically();
 		
 		else if (obj == itmAbout) AboutDialog.getInstance().setVisible(true);
 	}

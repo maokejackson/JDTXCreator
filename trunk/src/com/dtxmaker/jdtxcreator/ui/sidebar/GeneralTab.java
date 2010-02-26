@@ -2,12 +2,14 @@ package com.dtxmaker.jdtxcreator.ui.sidebar;
 
 import info.clearthought.layout.TableLayout;
 
+import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JSpinner;
 import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingConstants;
 
+import com.dtxmaker.jdtxcreator.Language;
 import com.dtxmaker.jdtxcreator.ui.AudioFileChooser;
 import com.dtxmaker.jdtxcreator.ui.ImageFileChooser;
 import com.dtxmaker.jdtxcreator.ui.LevelController;
@@ -25,6 +27,7 @@ public class GeneralTab extends AbstractTab
 	JTextField txtBpm;
 	JSpinner spnBpm;
 	LevelController lvlDrum, lvlGuitar, lvlBass;
+	JCheckBox chkHiddenLevel;
 	AudioFileChooser fsPreviewSound;
 	ImageFileChooser fsPreviewImage, fsLoadingImage, fsBackgroundImage, fsResultImage;
 
@@ -36,69 +39,72 @@ public class GeneralTab extends AbstractTab
 	
 	private GeneralTab()
 	{
-		lblTitle = getJLabel("Title");
-		lblTitle.setToolTipText("Song title");
-		lblArtist = getJLabel("Artist");
-		lblArtist.setToolTipText("Artist name");
-		lblGenre = getJLabel("Genre");
-		lblGenre.setToolTipText("Song genre");
-		lblComment = getJLabel("Comment");
-		lblComment.setToolTipText("Comment");
-		lblPanel = getJLabel("Panel Message");
-		lblPanel.setToolTipText("Panel message show in playing screen");
+		lblTitle = getJLabel(Language.get("general.label.title"));
+		lblTitle.setToolTipText(Language.get("general.tooltip.title"));
+		lblArtist = getJLabel(Language.get("general.label.artist"));
+		lblArtist.setToolTipText(Language.get("general.tooltip.artist"));
+		lblGenre = getJLabel(Language.get("general.label.genre"));
+		lblGenre.setToolTipText(Language.get("general.tooltip.genre"));
+		lblComment = getJLabel(Language.get("general.label.comment"));
+		lblComment.setToolTipText(Language.get("general.tooltip.comment"));
+		lblPanel = getJLabel(Language.get("general.label.panel"));
+		lblPanel.setToolTipText(Language.get("general.tooltip.panel"));
 		
-		lblBpm = getJLabel("BPM");
-		lblBpm.setToolTipText("Song's BPM (Beats per Minute)");
-		lblDrumLv = getJLabel("Drum Level");
-		lblDrumLv.setToolTipText("<html>Drums level, (easy) 1 to 100 (hart).<br>0 means no drums.</html>");
-		lblGuitarLv = getJLabel("Guitar Level");
-		lblGuitarLv.setToolTipText("<html>Guitar level, (easy) 1 to 100 (hart).<br>0 means no guitar.</html>");
-		lblBassLv = getJLabel("Bass Level");
-		lblBassLv.setToolTipText("<html>Bass level, (easy) 1 to 100 (hart).<br>0 means no bass.</html>");
+		lblBpm = getJLabel(Language.get("general.label.bpm"));
+		lblBpm.setToolTipText(Language.get("general.tooltip.bpm"));
+		lblDrumLv = getJLabel(Language.get("general.label.drum_level"));
+		lblDrumLv.setToolTipText(Language.get("general.tooltip.drum_level"));
+		lblGuitarLv = getJLabel(Language.get("general.label.guitar_level"));
+		lblGuitarLv.setToolTipText(Language.get("general.tooltip.guitar_level"));
+		lblBassLv = getJLabel(Language.get("general.label.bass_level"));
+		lblBassLv.setToolTipText(Language.get("general.tooltip.bass_level"));
 		
-		lblPreviewSound = getJLabel("Preview Sound");
-		lblPreviewSound.setToolTipText("Sound that plays when a song is selected.");
-		lblPreviewImage = getJLabel("Preview Image");
-		lblPreviewImage.setToolTipText("<html>Image that show when a song is selected.<br>The image size is 204x269.</html>");
-		lblLoadingImage = getJLabel("Loading Image");
-		lblLoadingImage.setToolTipText("<html>Background image that show in loading screen.<br>The image size is 640x480.</html>");
-		lblBackgroundImage = getJLabel("Background Image");
-		lblBackgroundImage.setToolTipText("<html>Background image that show in playing screen.<br>The image size is 640x480.</html>");
-		lblResultImage = getJLabel("Result Image");
-		lblResultImage.setToolTipText("<html>Image that show in result screen.<br>The image size is 204x269.</html>");
+		lblPreviewSound = getJLabel(Language.get("general.label.preview_sound"));
+		lblPreviewSound.setToolTipText(Language.get("general.tooltip.preview_sound"));
+		lblPreviewImage = getJLabel(Language.get("general.label.preview_image"));
+		lblPreviewImage.setToolTipText(Language.get("general.tooltip.preview_image"));
+		lblLoadingImage = getJLabel(Language.get("general.label.loading_image"));
+		lblLoadingImage.setToolTipText(Language.get("general.tooltip.loading_image"));
+		lblBackgroundImage = getJLabel(Language.get("general.label.background_image"));
+		lblBackgroundImage.setToolTipText(Language.get("general.tooltip.background_image"));
+		lblResultImage = getJLabel(Language.get("general.label.result_image"));
+		lblResultImage.setToolTipText(Language.get("general.tooltip.result_image"));
 		
 		txtTitle = new JTextField();
-		txtTitle.setToolTipText("Song title");
+		txtTitle.setToolTipText(Language.get("general.tooltip.title"));
 		txtArtist = new JTextField();
-		txtArtist.setToolTipText("Artist name");
+		txtArtist.setToolTipText(Language.get("general.tooltip.artist"));
 		txtGenre = new JTextField();
-		txtGenre.setToolTipText("Song genre");
+		txtGenre.setToolTipText(Language.get("general.tooltip.genre"));
 		txtComment = new JTextField();
-		txtComment.setToolTipText("Comment");
+		txtComment.setToolTipText(Language.get("general.tooltip.comment"));
 		txtPanel = new JTextField();
-		txtPanel.setToolTipText("Panel message show in playing screen");
+		txtPanel.setToolTipText(Language.get("general.tooltip.panel"));
 		
 		txtBpm = new JTextField();
-		spnBpm = new JSpinner(new SpinnerNumberModel(120.0, 0, 1000, 1));
-		spnBpm.setToolTipText("Song's BPM (Beats per Minute)");
+		spnBpm = new JSpinner(new SpinnerNumberModel(120.0, 0, 9999, 1));
+		spnBpm.setToolTipText(Language.get("general.tooltip.bpm"));
 		
-		lvlDrum = new LevelController(50);
-		lvlDrum.setToolTipText("<html>Drums level, (easy) 1 to 100 (hart).<br>0 means no drums.</html>");
+		lvlDrum = new LevelController();
+		lvlDrum.setToolTipText(Language.get("general.tooltip.drum_level"));
 		lvlGuitar = new LevelController();
-		lvlGuitar.setToolTipText("<html>Guitar level, (easy) 1 to 100 (hart).<br>0 means no guitar.</html>");
+		lvlGuitar.setToolTipText(Language.get("general.tooltip.guitar_level"));
 		lvlBass = new LevelController();
-		lvlBass.setToolTipText("<html>Bass level, (easy) 1 to 100 (hart).<br>0 means no bass.</html>");
+		lvlBass.setToolTipText(Language.get("general.tooltip.bass_level"));
+		
+		chkHiddenLevel = new JCheckBox(Language.get("general.label.hidden_level"));
+		chkHiddenLevel.setToolTipText(Language.get("general.tooltip.hidden_level"));
 		
 		fsPreviewSound = new AudioFileChooser();
-		fsPreviewSound.setToolTipText("Sound that plays when a song is selected.");
+		fsPreviewSound.setToolTipText(Language.get("general.tooltip.preview_sound"));
 		fsPreviewImage = new ImageFileChooser();
-		fsPreviewImage.setToolTipText("<html>Image that show when a song is selected.<br>The image size is 204x269.</html>");
+		fsPreviewImage.setToolTipText(Language.get("general.tooltip.preview_image"));
 		fsLoadingImage = new ImageFileChooser();
-		fsLoadingImage.setToolTipText("<html>Background image that show in loading screen.<br>The image size is 640x480.</html>");
+		fsLoadingImage.setToolTipText(Language.get("general.tooltip.loading_image"));
 		fsBackgroundImage = new ImageFileChooser();
-		fsBackgroundImage.setToolTipText("<html>Background image that show in playing screen.<br>The image size is 640x480.</html>");
+		fsBackgroundImage.setToolTipText(Language.get("general.tooltip.background_image"));
 		fsResultImage = new ImageFileChooser();
-		fsResultImage.setToolTipText("<html>Image that show in result screen.<br>The image size is 204x269.</html>");
+		fsResultImage.setToolTipText(Language.get("general.tooltip.result_image"));
 
 		double b = 10;
 		double f = TableLayout.FILL;
@@ -107,7 +113,7 @@ public class GeneralTab extends AbstractTab
 
 		double size[][] = {
 				{ b, p, b, 70, f, b },
-				{ b, p, vg, p, vg, p, vg, p, vg, p, vg, p, vg, p, vg, p, vg, p, vg, p, vg, p, vg, p, vg, p, vg, p, b }
+				{ b, p, vg, p, vg, p, vg, p, vg, p, vg, p, vg, p, vg, p, vg, p, vg, p, vg, p, vg, p, vg, p, vg, p, vg, p, b }
 		};
 		
 		TableLayout layout = new TableLayout(size);
@@ -133,17 +139,18 @@ public class GeneralTab extends AbstractTab
 		add(lvlGuitar, "3, 15, 4, 15");
 		add(lblBassLv, "1, 17");
 		add(lvlBass, "3, 17, 4, 17");
+		add(chkHiddenLevel, "3, 19, 4, 19");
 		
-		add(lblPreviewSound, "1, 19");
-		add(fsPreviewSound, "3, 19, 4, 19");
-		add(lblPreviewImage, "1, 21");
-		add(fsPreviewImage, "3, 21, 4, 21");
-		add(lblLoadingImage, "1, 23");
-		add(fsLoadingImage, "3, 23, 4, 23");
-		add(lblBackgroundImage, "1, 25");
-		add(fsBackgroundImage, "3, 25, 4, 25");
-		add(lblResultImage, "1, 27");
-		add(fsResultImage, "3, 27, 4, 27");
+		add(lblPreviewSound, "1, 21");
+		add(fsPreviewSound, "3, 21, 4, 21");
+		add(lblPreviewImage, "1, 23");
+		add(fsPreviewImage, "3, 23, 4, 23");
+		add(lblLoadingImage, "1, 25");
+		add(fsLoadingImage, "3, 25, 4, 25");
+		add(lblBackgroundImage, "1, 27");
+		add(fsBackgroundImage, "3, 27, 4, 27");
+		add(lblResultImage, "1, 29");
+		add(fsResultImage, "3, 29, 4, 29");
 	}
 	
 	private JLabel getJLabel(String text)
@@ -167,6 +174,7 @@ public class GeneralTab extends AbstractTab
 		dtx.setDrumLevel(lvlDrum.getValue());
 		dtx.setGuitarLevel(lvlGuitar.getValue());
 		dtx.setBassLevel(lvlBass.getValue());
+		dtx.setHiddenLevel(chkHiddenLevel.isSelected());
 		
 		dtx.setPreviewSound(fsPreviewSound.getPath());
 		dtx.setPreviewImage(fsPreviewImage.getPath());
@@ -189,6 +197,7 @@ public class GeneralTab extends AbstractTab
 		lvlDrum.setValue(dtx.getDrumLevel());
 		lvlGuitar.setValue(dtx.getGuitarLevel());
 		lvlBass.setValue(dtx.getBassLevel());
+		chkHiddenLevel.setSelected(dtx.isHiddenLevel());
 		
 		fsPreviewSound.setPath(dtx.getPreviewSound());
 		fsPreviewImage.setPath(dtx.getPreviewImage());
@@ -211,6 +220,7 @@ public class GeneralTab extends AbstractTab
 		lvlDrum.setValue(0);
 		lvlGuitar.setValue(0);
 		lvlBass.setValue(0);
+		chkHiddenLevel.setSelected(false);
 		
 		fsPreviewSound.setPath("");
 		fsPreviewImage.setPath("");
