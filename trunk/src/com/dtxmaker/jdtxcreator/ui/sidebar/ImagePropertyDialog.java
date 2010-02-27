@@ -89,8 +89,8 @@ public class ImagePropertyDialog extends AbstractPropertyDialog<Image>
 	protected void fillData(Image data)
 	{
 		txtNumber.setText(data.getNumber());
-		txtLabel.setText(data.getLabel());
-		fsFile.setPath(data.getPath());
+		txtLabel.setText(data.getLabel().trim());
+		fsFile.setPath(data.getPath().trim());
 		chkTexture.setSelected(data.isTexture());
 		txtLabel.requestFocus();
 	}

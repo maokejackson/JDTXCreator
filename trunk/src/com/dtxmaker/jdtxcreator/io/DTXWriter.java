@@ -61,6 +61,8 @@ public class DTXWriter
 				 * ----------------- END: writing general data -----------------
 				 */
 				
+				if (dtx.getOthers().length() > 0) writer.write(dtx.getOthers() + newLine(2));
+				
 				/*
 				 * ----------------- BEGIN: writing audio data -----------------
 				 */
@@ -159,8 +161,6 @@ public class DTXWriter
 				/*
 				 * ----------------- END: writing score data -----------------
 				 */
-				
-				writer.write(dtx.getOthers());
 			}
 			finally
 			{

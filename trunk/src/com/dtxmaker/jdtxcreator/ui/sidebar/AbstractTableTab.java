@@ -14,6 +14,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JToolBar;
 import javax.swing.SwingUtilities;
 
+import com.dtxmaker.jdtxcreator.Language;
 import com.dtxmaker.jdtxcreator.ui.Table;
 import com.dtxmaker.jdtxcreator.ui.ToolbarButton;
 
@@ -35,6 +36,7 @@ public abstract class AbstractTableTab<E> extends AbstractTab
 		setLayout(new BorderLayout());
 		
 		btnUp = new ToolbarButton("images/up.png");
+		btnUp.setToolTipText(Language.get("table.toolbar.tooltip.up"));
 		btnUp.addActionListener(new ActionListener()
 		{
 			@Override
@@ -45,6 +47,7 @@ public abstract class AbstractTableTab<E> extends AbstractTab
 		});
 		
 		btnDown = new ToolbarButton("images/down.png");
+		btnDown.setToolTipText(Language.get("table.toolbar.tooltip.down"));
 		btnDown.addActionListener(new ActionListener()
 		{
 			@Override
@@ -114,6 +117,14 @@ public abstract class AbstractTableTab<E> extends AbstractTab
 		add(toolbar, BorderLayout.SOUTH);
 	}
 	
+	@Override
+	public void setEnabled(boolean enabled)
+	{
+		table.setEnabled(enabled);
+		btnUp.setEnabled(enabled);
+		btnDown.setEnabled(enabled);
+	}
+	
 	public int[] getColumnsWidth()
 	{
 		int size = table.getColumnCount();
@@ -179,7 +190,9 @@ public abstract class AbstractTableTab<E> extends AbstractTab
 	 */
 	public int getSelectedRow()
 	{
-		return table.convertRowIndexToModel(table.getSelectedRow());
+		int index = table.getSelectedRow();
+		if (index == -1) return -1;
+		return table.convertRowIndexToModel(index);
 	}
 	
 	/** Move row up. */

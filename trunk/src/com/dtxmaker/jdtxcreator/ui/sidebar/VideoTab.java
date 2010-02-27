@@ -3,7 +3,7 @@ package com.dtxmaker.jdtxcreator.ui.sidebar;
 import java.util.Vector;
 
 import com.dtxmaker.jdtxcreator.Settings;
-import com.dtxmaker.jdtxcreator.data.ColumnNumber;
+import com.dtxmaker.jdtxcreator.data.RowNumber;
 import com.dtxmaker.jdtxcreator.data.Video;
 
 public class VideoTab extends AbstractTableTab<Video>
@@ -24,7 +24,7 @@ public class VideoTab extends AbstractTableTab<Video>
 	
 	private VideoTab()
 	{
-		table.addColumn("No", ColumnNumber.getVector());
+		table.addColumn("No", RowNumber.getVector());
 		table.addColumn("Label", "");
 		table.addColumn("File", "");
 		
@@ -71,7 +71,7 @@ public class VideoTab extends AbstractTableTab<Video>
 		for (int i = 0; i < vector.size(); i++)
 		{
 			Video video = vector.get(i);
-			int row = ColumnNumber.getColumn(video.getNumber());
+			int row = RowNumber.getRowIndex(video.getNumber());
 			if (row != -1) fillDataAt(video, row);
 		}
 	}

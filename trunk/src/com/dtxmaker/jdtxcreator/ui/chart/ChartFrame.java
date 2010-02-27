@@ -5,7 +5,6 @@ import java.io.File;
 
 import javax.swing.JFileChooser;
 import javax.swing.JInternalFrame;
-import javax.swing.JScrollPane;
 import javax.swing.event.InternalFrameAdapter;
 import javax.swing.event.InternalFrameEvent;
 
@@ -23,11 +22,10 @@ public class ChartFrame extends JInternalFrame
 	
 	ChartPanel chart;
 	ChartToolbar toolbar;
-	JScrollPane scrollPane;
 	
 	DTX dtx;
 	File file;
-	boolean dirty = false;
+	boolean modified = false;
 
 	public ChartFrame()
 	{
@@ -46,12 +44,8 @@ public class ChartFrame extends JInternalFrame
 		}
 		this.dtx = dtx;
 		
-		toolbar = new ChartToolbar(chart);
 		chart = new ChartPanel();
-		scrollPane = new JScrollPane(chart);
-		scrollPane.setBorder(null);
-		scrollPane.getVerticalScrollBar().setUnitIncrement(10);
-		scrollPane.getHorizontalScrollBar().setUnitIncrement(10);
+		toolbar = new ChartToolbar(chart);
 		
 		setLayout(new BorderLayout());
 		setDoubleBuffered(true);
@@ -59,7 +53,7 @@ public class ChartFrame extends JInternalFrame
 		addInternalFrameListener(frameAdapter);
 		
 		add(toolbar, BorderLayout.NORTH);
-		add(scrollPane, BorderLayout.CENTER);
+		add(chart.getScrollPane(), BorderLayout.CENTER);
 		
 		SideBar.getInstance().load(dtx);
 		setVisible(true);
@@ -70,9 +64,9 @@ public class ChartFrame extends JInternalFrame
 		return dtx;
 	}
 	
-	public boolean isDirty()
+	public boolean isModified()
 	{
-		return dirty;
+		return modified;
 	}
 	
 	public File getFile()
@@ -88,6 +82,18 @@ public class ChartFrame extends JInternalFrame
 		{
 			setTitle(file.getName());
 		}
+	}
+	
+	public void setMargin(int margin)
+	{
+		if (margin < 0 || margin >= ChartPanel.MARGIN.length)
+		{
+			String message = "Margin out of bound: " + margin;
+			throw new IllegalArgumentException(message);
+		}
+		
+		toolbar.setMargin(margin);
+		chart.setMargin(margin);
 	}
 
 	public void undo()
@@ -147,7 +153,7 @@ public class ChartFrame extends JInternalFrame
 		DTXWriter.write(file, dtx);
 		setFile(file);
 		Menu.getInstance().renameFrame(this);
-		dirty = false;
+		modified = false;
 	}
 	
 	InternalFrameAdapter frameAdapter = new InternalFrameAdapter()

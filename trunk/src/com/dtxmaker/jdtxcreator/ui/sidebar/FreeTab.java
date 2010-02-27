@@ -27,6 +27,12 @@ public class FreeTab extends AbstractTab
 		
 		add(new JScrollPane(textArea), BorderLayout.CENTER);
 	}
+	
+	@Override
+	public void setEnabled(boolean enabled)
+	{
+		textArea.setEditable(enabled);
+	}
 
 	@Override
 	public void captureData()

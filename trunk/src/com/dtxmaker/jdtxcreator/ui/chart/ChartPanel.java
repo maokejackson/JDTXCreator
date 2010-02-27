@@ -17,12 +17,15 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
 
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+
+import com.dtxmaker.jdtxcreator.ui.main.StatusBar;
 
 public class ChartPanel extends JPanel
 {
 	private static final long serialVersionUID = 3008335903707360858L;
 	
-	public static final int LANE_WIDTH = 34;
+	public static final int LANE_WIDTH = 30;
 	public static final int HEADER_HEIGHT = 42;
 	
 	public static final int MARGIN_4 = 0;
@@ -63,12 +66,15 @@ public class ChartPanel extends JPanel
 		new Lane("CY", CYAN, false, 0x16, 0x19),
 		new Lane("FI", YELLOW, true, 0x53, 0x53),
 		new Lane("BGM", GRAY, true, 0x01, 0x01),
-		new Lane("AVI", GRAY, true, 0x54, 0x54),
+		new Lane("AVI", GRAY, false, 0x54, 0x54),
 		new Lane("SE1", GRAY, true, 0x61, 0x61),
 		new Lane("SE2", GRAY, false, 0x62, 0x62),
 		new Lane("SE3", GRAY, false, 0x63, 0x63),
 		new Lane("SE4", GRAY, false, 0x64, 0x64),
 		new Lane("SE5", GRAY, false, 0x65, 0x65),
+		new Lane("SE6", GRAY, false, 0x66, 0x66),
+		new Lane("SE7", GRAY, false, 0x67, 0x67),
+		new Lane("SE8", GRAY, false, 0x68, 0x68),
 		new Lane("GtV", GRAY, true, 0, 0),
 		new Lane("GtR", RED, false, 0, 0),
 		new Lane("GtG", GREEN, false, 0, 0),
@@ -79,16 +85,13 @@ public class ChartPanel extends JPanel
 		new Lane("BsG", GREEN, false, 0, 0),
 		new Lane("BsB", BLUE, false, 0, 0),
 		new Lane("BsW", GRAY, true, 0xa8, 0xa8),
-		new Lane("SE6", GRAY, true, 0x66, 0x66),
-		new Lane("SE7", GRAY, false, 0x67, 0x67),
-		new Lane("SE8", GRAY, false, 0x68, 0x68),
-		new Lane("SE9", GRAY, false, 0x69, 0x69),
-		new Lane("SE10", GRAY, false, 0x6a, 0x6a),
-		new Lane("SE11", GRAY, false, 0x6b, 0x6b),
-		new Lane("SE12", GRAY, false, 0x6c, 0x6c),
-		new Lane("SE13", GRAY, false, 0x6d, 0x6d),
-		new Lane("SE14", GRAY, false, 0x6e, 0x6e),
-		new Lane("SE15", GRAY, false, 0x6f, 0x6f),
+		new Lane("SE9", GRAY, true, 0x69, 0x69),
+		new Lane("S10", GRAY, false, 0x6a, 0x6a),
+		new Lane("S11", GRAY, false, 0x6b, 0x6b),
+		new Lane("S12", GRAY, false, 0x6c, 0x6c),
+		new Lane("S13", GRAY, false, 0x6d, 0x6d),
+		new Lane("S14", GRAY, false, 0x6e, 0x6e),
+		new Lane("S15", GRAY, false, 0x6f, 0x6f),
 		new Lane("BG1", GRAY, true, 0x04, 0xc4),
 		new Lane("BG2", GRAY, false, 0x07, 0xc7),
 		new Lane("BG3", GRAY, false, 0x55, 0xd5),
@@ -105,6 +108,8 @@ public class ChartPanel extends JPanel
 	
 	// 192 notes when part length = 1
 	
+	JScrollPane scrollPane;
+	
 	private int margin = 2;
 
 	public ChartPanel()
@@ -113,9 +118,19 @@ public class ChartPanel extends JPanel
 		setBackground(Color.BLACK);
 		addMouseListener(mouseListener);
 		addMouseMotionListener(mouseMotionListener);
+		
+		scrollPane = new JScrollPane(this);
+		scrollPane.setBorder(null);
+		scrollPane.getVerticalScrollBar().setUnitIncrement(10);
+		scrollPane.getHorizontalScrollBar().setUnitIncrement(10);
 	}
 	
-	public void setMargin(int margin)
+	public JScrollPane getScrollPane()
+	{
+		return scrollPane;
+	}
+	
+	void setMargin(int margin)
 	{
 		this.margin = margin;
 	}
@@ -184,7 +199,7 @@ public class ChartPanel extends JPanel
 		FontMetrics fm = g2.getFontMetrics();
 		FontRenderContext frc = g2.getFontRenderContext();
 		Color textColor = Color.LIGHT_GRAY;
-		Color shadowColor = Color.DARK_GRAY;
+		Color shadowColor = new Color(0, 0, 0, 200);
 		
 		for (int i = 0, left = 0; i < LANES.length; i++)
 		{
@@ -210,12 +225,12 @@ public class ChartPanel extends JPanel
 		g2.dispose();
 	}
 	
-	public void zoomIn()
+	void zoomIn()
 	{
 		// TODO: zoom in
 	}
 	
-	public void zoomOut()
+	void zoomOut()
 	{
 		// TODO: zoom out
 	}
@@ -256,7 +271,7 @@ public class ChartPanel extends JPanel
 		@Override
 		public void mouseMoved(MouseEvent e)
 		{
-			System.out.println("mouseMoved");
+			StatusBar.getInstance().setPoint(e.getPoint());
 		};
 	};
 }

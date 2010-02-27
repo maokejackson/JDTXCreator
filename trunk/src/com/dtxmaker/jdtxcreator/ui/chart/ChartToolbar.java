@@ -52,6 +52,11 @@ public class ChartToolbar extends JToolBar implements ActionListener
 		add(new JLabel(" " + Language.get("toolbar.tooltip.play_speed") + " "));
 		add(cbxPlaySpeed);
 	}
+	
+	void setMargin(int margin)
+	{
+		cbxMargin.setSelectedIndex(margin);
+	}
 
 	@Override
 	public void actionPerformed(ActionEvent e)

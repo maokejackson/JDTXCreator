@@ -112,7 +112,7 @@ public class GeneralTab extends AbstractTab
 		double vg = 3;
 
 		double size[][] = {
-				{ b, p, b, 70, f, b },
+				{ b, p, b, 80, f, b },
 				{ b, p, vg, p, vg, p, vg, p, vg, p, vg, p, vg, p, vg, p, vg, p, vg, p, vg, p, vg, p, vg, p, vg, p, vg, p, b }
 		};
 		
@@ -158,6 +158,41 @@ public class GeneralTab extends AbstractTab
 		JLabel label = new JLabel(text);
 		label.setHorizontalAlignment(SwingConstants.RIGHT);
 		return label;
+	}
+	
+	@Override
+	public void setEnabled(boolean enabled)
+	{
+//		lblTitle.setEnabled(enabled);
+//		lblArtist.setEnabled(enabled);
+//		lblGenre.setEnabled(enabled);
+//		lblComment.setEnabled(enabled);
+//		lblPanel.setEnabled(enabled);
+//		lblBpm.setEnabled(enabled);
+//		lblDrumLv.setEnabled(enabled);
+//		lblGuitarLv.setEnabled(enabled);
+//		lblBassLv.setEnabled(enabled);
+//		lblPreviewSound.setEnabled(enabled);
+//		lblPreviewImage.setEnabled(enabled);
+//		lblLoadingImage.setEnabled(enabled);
+//		lblBackgroundImage.setEnabled(enabled);
+//		lblResultImage.setEnabled(enabled);
+		txtTitle.setEnabled(enabled);
+		txtArtist.setEnabled(enabled);
+		txtGenre.setEnabled(enabled);
+		txtComment.setEnabled(enabled);
+		txtPanel.setEnabled(enabled);
+		txtBpm.setEnabled(enabled);
+		spnBpm.setEnabled(enabled);
+		lvlDrum.setEnabled(enabled);
+		lvlGuitar.setEnabled(enabled);
+		lvlBass.setEnabled(enabled);
+		chkHiddenLevel.setEnabled(enabled);
+		fsPreviewSound.setEnabled(enabled);
+		fsPreviewImage.setEnabled(enabled);
+		fsLoadingImage.setEnabled(enabled);
+		fsBackgroundImage.setEnabled(enabled);
+		fsResultImage.setEnabled(enabled);
 	}
 
 	@Override

@@ -72,7 +72,7 @@ public class ChartFrameManager extends JDesktopPane
 	}
 	
 	/**
-	 * Open a chart.
+	 * Pop a file chooser dialog. User can select multiple files.
 	 */
 	public void open()
 	{
@@ -80,7 +80,24 @@ public class ChartFrameManager extends JDesktopPane
 		
 		if (answer == JFileChooser.CANCEL_OPTION) return;
 		File[] files = FileChooserFactory.getSelectedFiles();
-		
+		open(files);
+	}
+	
+	/**
+	 * Open specified file.
+	 * @param file the file to be opened.
+	 */
+	public void open(File file)
+	{
+		open(new File[] { file });
+	}
+	
+	/**
+	 * Open multiple files.
+	 * @param files an array of files.
+	 */
+	public void open(File[] files)
+	{
 		if (files == null) return;
 		
 		for (int i = 0; i < files.length; i++)
@@ -124,7 +141,7 @@ public class ChartFrameManager extends JDesktopPane
 			charts[i].save();
 		}
 	}
-	
+
 	/**
 	 * Close selected chart.
 	 */
@@ -132,9 +149,10 @@ public class ChartFrameManager extends JDesktopPane
 	{
 		close(getSelectedChart());
 	}
-	
+
 	/**
 	 * Close specified chart
+	 * 
 	 * @param chart the chart to be closed.
 	 * @return <code>true</code> if chart is closed.
 	 */
@@ -142,7 +160,7 @@ public class ChartFrameManager extends JDesktopPane
 	{
 		if (chart == null) return true;
 		
-		if (chart.isDirty())
+		if (chart.isModified())
 		{
 			String title = "Confirm";
 			String message = "Save changes to file?\n\n" + chart.getTitle();
@@ -157,23 +175,29 @@ public class ChartFrameManager extends JDesktopPane
 		chart.dispose();
 		SideBar.getInstance().resetData();
 		selectLastChart();
+		Menu.getInstance().addFile(chart.file);
+		
+		if (isEmpty()) SideBar.getInstance().setEnabled(false);
 		
 		return true;
 	}
-	
+
 	/**
-	 * Close all charts. If content is modified, will ask user whether to save it.
-	 * @return <code>false</code> if cancel is clicked when a confirm to close dialog show. 
+	 * Close all charts. If content is modified, will ask user whether to save
+	 * it.
+	 * 
+	 * @return <code>false</code> if cancel is clicked when a confirm to close
+	 *         dialog show.
 	 */
 	public boolean closeAll()
 	{
 		ChartFrame[] charts = getAllCharts();
-		
+
 		if (charts != null)
 		{
 			for (int i = 0; i < charts.length; i++)
 			{
-				if (!close(charts[i])) return false;	// if user click cancel
+				if (!close(charts[i])) return false; // if user click cancel
 			}
 		}
 		
@@ -211,18 +235,34 @@ public class ChartFrameManager extends JDesktopPane
 		add(chart);
 		putChart(chart, lastLocation);
 		Menu.getInstance().addFrame(chart);
+		SideBar.getInstance().setEnabled(true);
+	}
+	
+	/**
+	 * Returns <code>true</code> if this manager contains no internal frames.
+	 * 
+	 * @return <code>true</code> if this manager contains no internal frames.
+	 */
+	public boolean isEmpty()
+	{
+		JInternalFrame[] frames = getAllFrames();
+		return (frames == null) || (frames.length == 0);
 	}
 	
 	private void putChart(JInternalFrame frame, Point location)
 	{
+		putChart(frame, location, true);
+	}
+	
+	private void putChart(JInternalFrame frame, Point location, boolean select)
+	{
 		Dimension availableSize = getSize();
-//		Dimension frameSize = new Dimension((int) (size.width * 0.6), (int) (size.height * 0.6));
 		frame.setLocation(location);
-		frame.setSize((int) (availableSize.width * 0.6), (int) (availableSize.height * 0.6));
+		frame.setSize((int) (availableSize.width * 0.7), (int) (availableSize.height * 0.7));
 		
 		try
 		{
-			frame.setSelected(true);
+			if (select) frame.setSelected(true);
 		}
 		catch (Exception e)
 		{
@@ -241,7 +281,7 @@ public class ChartFrameManager extends JDesktopPane
 		}
 	}
 	
-	public void selectLastChart()
+	void selectLastChart()
 	{
 		JInternalFrame[] frames = getAllFrames();
 		
@@ -282,7 +322,7 @@ public class ChartFrameManager extends JDesktopPane
 			{
 				e.printStackTrace();
 			}
-			putChart(frame, location);
+			putChart(frame, location, false);
 		}
 	}
 	
@@ -290,6 +330,133 @@ public class ChartFrameManager extends JDesktopPane
 	 * Tile windows horizontally.
 	 */
 	public void tileHorizontally()
+	{
+		JInternalFrame[] frames = getAllFrames();
+		
+		if (frames == null) return;
+		
+		int count = frames.length;
+		if (count == 0) return;
+		if (count > 8)
+		{
+			tile();
+			return;
+		}
+		
+		int cols = 2;
+		int rows = count / 2;
+		if (rows * cols < count)
+		{
+			rows++;
+		}
+
+		// Define some initial values for size & location.
+		Dimension size = getSize();
+
+		int w = size.width / cols;
+		int h = size.height / rows;
+		int x = 0;
+		int y = 0;
+
+		// Iterate over the frames, deiconifying any iconified frames and then
+		// relocating & resizing each.
+		for (int i = 0; i < cols; i++)
+		{
+			if (i == 1 && count % 2 == 1)
+			{
+				// If number of frames is odd, recalculate height.
+				h = size.height / (count - rows);
+			}
+			for (int j = 0; j < rows && ((i * rows) + j < count); j++)
+			{
+				JInternalFrame frame = frames[(i * rows) + j];
+
+				try
+				{
+					if (frame.isClosed()) continue;
+					if (frame.isIcon()) frame.setIcon(false);
+					if (frame.isMaximum()) frame.setMaximum(false);
+				}
+				catch (Exception e)
+				{
+					e.printStackTrace();
+				}
+
+				frame.setSize(w, h);
+				frame.setLocation(x, y);
+				y += h; // start the next row
+			}
+			x += w;
+			y = 0;
+		}
+	}
+
+	/**
+	 * Tile windows vertically.
+	 */
+	public void tileVertically()
+	{
+		JInternalFrame[] frames = getAllFrames();
+		
+		if (frames == null) return;
+		
+		int count = frames.length;
+		if (count == 0) return;
+		if (count > 8)
+		{
+			tile();
+			return;
+		}
+		
+		int rows = 2;
+		int cols = count / 2;
+		if (rows * cols < count)
+		{
+			cols++;
+		}
+
+		// Define some initial values for size & location.
+		Dimension size = getSize();
+
+		int w = size.width / cols;
+		int h = size.height / rows;
+		int x = 0;
+		int y = 0;
+
+		// Iterate over the frames, deiconifying any iconified frames and then
+		// relocating & resizing each.
+		for (int i = 0; i < rows; i++)
+		{
+			if (i == 1 && count % 2 == 1)
+			{
+				// If number of frames is odd, recalculate width.
+				w = size.width / (count - cols);
+			}
+			for (int j = 0; j < cols && ((i * cols) + j < count); j++)
+			{
+				JInternalFrame frame = frames[(i * cols) + j];
+
+				try
+				{
+					if (frame.isClosed()) continue;
+					if (frame.isIcon()) frame.setIcon(false);
+					if (frame.isMaximum()) frame.setMaximum(false);
+				}
+				catch (Exception e)
+				{
+					e.printStackTrace();
+				}
+
+				frame.setSize(w, h);
+				frame.setLocation(x, y);
+				x += w;
+			}
+			y += h; // start the next row
+			x = 0;
+		}
+	}
+	
+	public void tile()
 	{
 		JInternalFrame[] frames = getAllFrames();
 		
@@ -321,11 +488,16 @@ public class ChartFrameManager extends JDesktopPane
 
 		// Iterate over the frames, deiconifying any iconified frames and then
 		// relocating & resizing each.
-		for (int i = 0; i < rows; i++)
+		for (int i = 0; i < cols; i++)
 		{
-			for (int j = 0; j < cols && ((i * cols) + j < count); j++)
+			if (i == cols - 1)
 			{
-				JInternalFrame frame = frames[(i * cols) + j];
+				// Recalculate height at last column.
+				h = size.height / (count - rows * (cols - 1));
+			}
+			for (int j = 0; j < rows && ((i * rows) + j < count); j++)
+			{
+				JInternalFrame frame = frames[(i * rows) + j];
 
 				try
 				{
@@ -340,19 +512,11 @@ public class ChartFrameManager extends JDesktopPane
 
 				frame.setSize(w, h);
 				frame.setLocation(x, y);
-				x += w;
+				y += h; // start the next row
 			}
-			y += h; // start the next row
-			x = 0;
+			x += w;
+			y = 0;
 		}
-	}
-
-	/**
-	 * Tile windows vertically.
-	 */
-	public void tileVertically()
-	{
-		
 	}
 	
 	@Override

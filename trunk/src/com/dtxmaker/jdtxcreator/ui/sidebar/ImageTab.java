@@ -3,7 +3,7 @@ package com.dtxmaker.jdtxcreator.ui.sidebar;
 import java.util.Vector;
 
 import com.dtxmaker.jdtxcreator.Settings;
-import com.dtxmaker.jdtxcreator.data.ColumnNumber;
+import com.dtxmaker.jdtxcreator.data.RowNumber;
 import com.dtxmaker.jdtxcreator.data.Image;
 import com.dtxmaker.jdtxcreator.ui.BooleanCellRenderer;
 
@@ -26,7 +26,7 @@ public class ImageTab extends AbstractTableTab<Image>
 	
 	private ImageTab()
 	{
-		table.addColumn("No", ColumnNumber.getVector());
+		table.addColumn("No", RowNumber.getVector());
 		table.addColumn("Label", "");
 		table.addColumn("File", "");
 		table.addColumn("Tex", false);
@@ -76,7 +76,7 @@ public class ImageTab extends AbstractTableTab<Image>
 		for (int i = 0; i < vector.size(); i++)
 		{
 			Image image = vector.get(i);
-			int row = ColumnNumber.getColumn(image.getNumber());
+			int row = RowNumber.getRowIndex(image.getNumber());
 			if (row != -1) fillDataAt(image, row);
 		}
 	}

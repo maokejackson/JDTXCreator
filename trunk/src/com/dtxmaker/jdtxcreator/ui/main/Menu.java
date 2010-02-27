@@ -3,6 +3,7 @@ package com.dtxmaker.jdtxcreator.ui.main;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.io.File;
 import java.util.Hashtable;
 
 import javax.swing.ButtonGroup;
@@ -14,20 +15,26 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JRadioButtonMenuItem;
 import javax.swing.KeyStroke;
+import javax.swing.JPopupMenu.Separator;
 
 import com.dtxmaker.jdtxcreator.Language;
 import com.dtxmaker.jdtxcreator.Settings;
 import com.dtxmaker.jdtxcreator.ui.InternalFrameMenuItem;
+import com.dtxmaker.jdtxcreator.ui.MRUMenu;
 import com.dtxmaker.jdtxcreator.ui.chart.ChartFrameManager;
 
 public class Menu extends JMenuBar implements ActionListener
 {
 	private static final long serialVersionUID = 4750630756610283215L;
 	
+	public static final int MAX_FILES = 5;
+	
 	private static Menu instance;
 	
-	JMenu mnuFile, mnuEdit, mnuView, mnuPlay, mnuWindow, mnuHelp;
+	MRUMenu mnuFile;
+	JMenu mnuEdit, mnuView, mnuMusic, mnuWindow, mnuHelp;
 	JMenuItem itmNew, itmOpen, itmSave, itmSaveAll, itmSaveAs, itmClose, itmCloseAll, itmExit;
+	Separator spFiles;
 	JMenuItem itmUndo, itmRedo;
 	JMenuItem itmCut, itmCopy, itmPaste, itmDelete;
 	JMenuItem itmSelectAll;
@@ -39,6 +46,7 @@ public class Menu extends JMenuBar implements ActionListener
 	JMenuItem itmPlay, itmPlayCurrent, itmStop;
 	JCheckBoxMenuItem itmBgmSound, itmNoteSound;
 	JMenuItem itmCascade, itmTileH, itmTileV;
+	Separator spWindows;
 	JMenuItem itmAbout;
 	
 	ButtonGroup grpWindows;
@@ -52,14 +60,14 @@ public class Menu extends JMenuBar implements ActionListener
 
 	private Menu()
 	{
-		mnuFile = new JMenu(Language.get("menu.file"));
+		mnuFile = new MRUMenu(Language.get("menu.file"));
 		mnuFile.setMnemonic(KeyEvent.VK_F);
 		mnuEdit = new JMenu(Language.get("menu.edit"));
 		mnuEdit.setMnemonic(KeyEvent.VK_E);
 		mnuView = new JMenu(Language.get("menu.view"));
 		mnuView.setMnemonic(KeyEvent.VK_V);
-		mnuPlay = new JMenu(Language.get("menu.play"));
-		mnuPlay.setMnemonic(KeyEvent.VK_P);
+		mnuMusic = new JMenu(Language.get("menu.music"));
+		mnuMusic.setMnemonic(KeyEvent.VK_M);
 		mnuWindow = new JMenu(Language.get("menu.window"));
 		mnuWindow.setMnemonic(KeyEvent.VK_W);
 		mnuHelp = new JMenu(Language.get("menu.help"));
@@ -82,6 +90,7 @@ public class Menu extends JMenuBar implements ActionListener
 		itmClose.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_W, ActionEvent.CTRL_MASK));
 		itmCloseAll = new JMenuItem(Language.get("menu.file.close_all"), KeyEvent.VK_L);
 		itmExit = new JMenuItem(Language.get("menu.file.exit"), KeyEvent.VK_X);
+		spFiles = new Separator();
 		
 		mnuFile.add(itmNew).addActionListener(this);
 		mnuFile.add(itmOpen).addActionListener(this);
@@ -92,6 +101,8 @@ public class Menu extends JMenuBar implements ActionListener
 		mnuFile.addSeparator();
 		mnuFile.add(itmClose).addActionListener(this);
 		mnuFile.add(itmCloseAll).addActionListener(this);
+//		mnuFile.addMRU();
+		mnuFile.addMRUs(Settings.getStringArray(Settings.MOST_RECENT_USED));
 		mnuFile.addSeparator();
 		mnuFile.add(itmExit).addActionListener(this);
 		
@@ -123,7 +134,6 @@ public class Menu extends JMenuBar implements ActionListener
 		itmEditMode = new JRadioButtonMenuItem(Language.get("menu.edit.edit_mode"));
 		itmEditMode.setMnemonic(KeyEvent.VK_E);
 		itmEditMode.setIcon(new ImageIcon("images/edit.png"));
-//		itmEditMode.setSelected(true);
 		itmChangeMode = new JMenuItem(Language.get("menu.edit.change_mode"), KeyEvent.VK_M);
 		itmChangeMode.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F8, 0));
 		
@@ -168,30 +178,30 @@ public class Menu extends JMenuBar implements ActionListener
 		mnuView.add(itmZoomIn).addActionListener(this);
 		mnuView.add(itmZoomOut).addActionListener(this);
 		
-		itmPlay = new JMenuItem(Language.get("menu.play.play_from_start"), KeyEvent.VK_T);
+		itmPlay = new JMenuItem(Language.get("menu.music.play_from_start"), KeyEvent.VK_T);
 		itmPlay.setIcon(new ImageIcon("images/play_start.png"));
 		itmPlay.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F5, 0));
-		itmPlayCurrent = new JMenuItem(Language.get("menu.play.play_from_current_part"), KeyEvent.VK_P);
+		itmPlayCurrent = new JMenuItem(Language.get("menu.music.play"), KeyEvent.VK_P);
 		itmPlayCurrent.setIcon(new ImageIcon("images/play.png"));
 		itmPlayCurrent.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F6, 0));
-		itmStop = new JMenuItem(Language.get("menu.play.stop"), KeyEvent.VK_S);
+		itmStop = new JMenuItem(Language.get("menu.music.stop"), KeyEvent.VK_S);
 		itmStop.setIcon(new ImageIcon("images/stop.png"));
 		itmStop.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F7, 0));
-		itmBgmSound = new JCheckBoxMenuItem(Language.get("menu.play.bgm_sound"));
+		itmBgmSound = new JCheckBoxMenuItem(Language.get("menu.music.bgm_sound"));
 		itmBgmSound.setIcon(new ImageIcon("images/bgm_sound.png"));
 		itmBgmSound.setMnemonic(KeyEvent.VK_B);
 		itmBgmSound.setSelected(true);
-		itmNoteSound = new JCheckBoxMenuItem(Language.get("menu.play.note_sound"));
+		itmNoteSound = new JCheckBoxMenuItem(Language.get("menu.music.note_sound"));
 		itmNoteSound.setIcon(new ImageIcon("images/note_sound.png"));
 		itmNoteSound.setMnemonic(KeyEvent.VK_N);
 		itmNoteSound.setSelected(true);
 		
-		mnuPlay.add(itmPlay).addActionListener(this);
-		mnuPlay.add(itmPlayCurrent).addActionListener(this);
-		mnuPlay.add(itmStop).addActionListener(this);
-		mnuPlay.addSeparator();
-		mnuPlay.add(itmBgmSound).addActionListener(this);
-		mnuPlay.add(itmNoteSound).addActionListener(this);
+		mnuMusic.add(itmPlay).addActionListener(this);
+		mnuMusic.add(itmPlayCurrent).addActionListener(this);
+		mnuMusic.add(itmStop).addActionListener(this);
+		mnuMusic.addSeparator();
+		mnuMusic.add(itmBgmSound).addActionListener(this);
+		mnuMusic.add(itmNoteSound).addActionListener(this);
 		
 		itmCascade = new JMenuItem(Language.get("menu.window.cascade"), KeyEvent.VK_C);
 		itmCascade.setIcon(new ImageIcon("images/cascade.png"));
@@ -199,13 +209,13 @@ public class Menu extends JMenuBar implements ActionListener
 		itmTileH.setIcon(new ImageIcon("images/tile_horizontal.png"));
 		itmTileV = new JMenuItem(Language.get("menu.window.tile_vertically"), KeyEvent.VK_V);
 		itmTileV.setIcon(new ImageIcon("images/tile_vertical.png"));
+		spWindows = new Separator();
 		grpWindows = new ButtonGroup();
 		charts = new Hashtable<JInternalFrame, InternalFrameMenuItem>();
 		
 		mnuWindow.add(itmCascade).addActionListener(this);
 		mnuWindow.add(itmTileH).addActionListener(this);
 		mnuWindow.add(itmTileV).addActionListener(this);
-		mnuWindow.addSeparator();
 		
 		itmAbout = new JMenuItem(Language.get("menu.help.about"), KeyEvent.VK_A);
 		
@@ -214,9 +224,14 @@ public class Menu extends JMenuBar implements ActionListener
 		add(mnuFile);
 		add(mnuEdit);
 		add(mnuView);
-		add(mnuPlay);
+		add(mnuMusic);
 		add(mnuWindow);
 		add(mnuHelp);
+	}
+	
+	public File[] getMruFiles()
+	{
+		return mnuFile.getMRUs();
 	}
 	
 	public void setMode(boolean mode)
@@ -243,10 +258,17 @@ public class Menu extends JMenuBar implements ActionListener
 		itmNoteSound.setSelected(b);
 	}
 	
+	public void addFile(File file)
+	{
+		if (file == null || !file.exists()) return;
+		mnuFile.addMRU(file);
+	}
+	
 	public void addFrame(JInternalFrame frame)
 	{
 		if (frame == null) return;
 		
+		if (charts.isEmpty()) mnuWindow.add(spWindows);
 		InternalFrameMenuItem item = new InternalFrameMenuItem(frame);
 		mnuWindow.add(item);
 		grpWindows.add(item);
@@ -265,6 +287,7 @@ public class Menu extends JMenuBar implements ActionListener
 			mnuWindow.remove(item);
 			grpWindows.remove(item);
 			charts.remove(frame);
+			if (charts.isEmpty()) mnuWindow.remove(spWindows);
 		}
 	}
 	

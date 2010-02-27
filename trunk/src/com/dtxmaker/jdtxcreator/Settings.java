@@ -6,6 +6,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.util.Properties;
 
+import com.dtxmaker.jdtxcreator.ui.main.Menu;
 import com.dtxmaker.jdtxcreator.ui.sidebar.ImageTab;
 import com.dtxmaker.jdtxcreator.ui.sidebar.AudioTab;
 import com.dtxmaker.jdtxcreator.ui.sidebar.VideoTab;
@@ -24,6 +25,8 @@ public class Settings
 	public static final String COLUMN_WIDTH = "_column_width";
 	public static final String COLUMN_INDEX = "_column_index";
 	public static final String COLUMN_VISIBLE = "_column_visible";
+	
+	public static final String MOST_RECENT_USED = "most_recent_used";
 	
 //	public static final Font TABLE_FONT = new Font("SimSun", Font.PLAIN, 11);
 	public static final Font TABLE_FONT = new Font("MS Gothic", Font.PLAIN, 12);
@@ -73,10 +76,10 @@ public class Settings
 		return props.getProperty(key);
 	}
 	
-//	private static void set(String key, String value)
-//	{
-//		props.setProperty(key, value);
-//	}
+	private static void set(String key, String value)
+	{
+		props.setProperty(key, value);
+	}
 	
 	private static void set(String key, int value)
 	{
@@ -110,6 +113,17 @@ public class Settings
 		}
 	}
 	
+	public static void set(String key, File[] data)
+	{
+		set(key, data.length);
+		
+		for (int i = 0; i < data.length; i++)
+		{
+			String column = key + "_" + i;
+			set(column, data[i].getAbsolutePath());
+		}
+	}
+	
 	private static int getInteger(String key, int defaultValue)
 	{
 		String value = get(key);
@@ -126,6 +140,19 @@ public class Settings
 		if (value != null) defaultValue = Boolean.parseBoolean(value);
 		
 		return defaultValue;
+	}
+	
+	public static String[] getStringArray(String key)
+	{
+		String[] data = new String[getInteger(key, 0)];
+		
+		for (int i = 0; i < data.length; i++)
+		{
+			String column = key + "_" + i;
+			data[i] = get(column);
+		}
+		
+		return data;
 	}
 	
 	public static int[] getIntegerArray(String key)
@@ -187,84 +214,6 @@ public class Settings
 		set(DIVIDER_LOCATION, value);
 	}
 	
-//	public static int[] getListWidth(String list)
-//	{
-//		String key = list + COLUMN_WIDTH;
-//		int[] data = new int[getInteger(key, 0)];
-//		
-//		for (int i = 0; i < data.length; i++)
-//		{
-//			String column = key + "_" + i;
-//			data[i] = getInteger(column, 75);
-//		}
-//		
-//		return data;
-//	}
-//	
-//	public static void setListWidth(String list, int[] data)
-//	{
-//		String key = list + COLUMN_WIDTH;
-//		set(key, data.length);
-//		
-//		for (int i = 0; i < data.length; i++)
-//		{
-//			String column = key + "_" + i;
-//			set(column, data[i]);
-//		}
-//	}
-//	
-//	public static int[] getListIndex(String list)
-//	{
-//		String key = list + COLUMN_INDEX;
-//		int[] data = new int[getInteger(key, 0)];
-//		
-//		for (int i = 0; i < data.length; i++)
-//		{
-//			String column = key + "_" + i;
-//			data[i] = getInteger(column, 75);
-//		}
-//		
-//		return data;
-//	}
-//	
-//	public static void setListIndex(String list, int[] data)
-//	{
-//		String key = list + COLUMN_INDEX;
-//		set(key, data.length);
-//		
-//		for (int i = 0; i < data.length; i++)
-//		{
-//			String column = key + "_" + i;
-//			set(column, data[i]);
-//		}
-//	}
-//
-//	public static boolean[] getListVisible(String list)
-//	{
-//		String key = list + COLUMN_VISIBLE;
-//		boolean[] data = new boolean[getInteger(key, 0)];
-//		
-//		for (int i = 0; i < data.length; i++)
-//		{
-//			String column = key + "_" + i;
-//			data[i] = getBoolean(column, true);
-//		}
-//		
-//		return data;
-//	}
-//	
-//	public static void setListVisible(String list, boolean[] data)
-//	{
-//		String key = list + COLUMN_VISIBLE;
-//		set(key, data.length);
-//		
-//		for (int i = 0; i < data.length; i++)
-//		{
-//			String column = key + "_" + i;
-//			set(column, data[i]);
-//		}
-//	}
-	
 	public static void store()
 	{
 		set(SOUND_LIST + COLUMN_WIDTH, AudioTab.getInstance().getColumnsWidth());
@@ -273,6 +222,7 @@ public class Settings
 		set(IMAGE_LIST + COLUMN_INDEX, ImageTab.getInstance().getColumnsViewIndex());
 		set(VIDEO_LIST + COLUMN_WIDTH, VideoTab.getInstance().getColumnsWidth());
 		set(VIDEO_LIST + COLUMN_INDEX, VideoTab.getInstance().getColumnsViewIndex());
+		set(MOST_RECENT_USED, Menu.getInstance().getMruFiles());
 
 		try
 		{

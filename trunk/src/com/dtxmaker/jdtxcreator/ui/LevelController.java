@@ -72,6 +72,13 @@ public class LevelController extends JPanel implements FocusListener, Adjustment
 		scrollbar.setToolTipText(text);
 	}
 	
+	@Override
+	public void setEnabled(boolean enabled)
+	{
+		textField.setEnabled(enabled);
+		scrollbar.setEnabled(enabled);
+	}
+	
 	public int getValue()
 	{
 		int value = 0;
