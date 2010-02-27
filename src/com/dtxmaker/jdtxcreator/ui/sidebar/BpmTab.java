@@ -1,7 +1,7 @@
 package com.dtxmaker.jdtxcreator.ui.sidebar;
 
 import com.dtxmaker.jdtxcreator.data.BPM;
-import com.dtxmaker.jdtxcreator.data.ColumnNumber;
+import com.dtxmaker.jdtxcreator.data.RowNumber;
 
 public class BpmTab extends AbstractTableTab<BPM>
 {
@@ -17,7 +17,7 @@ public class BpmTab extends AbstractTableTab<BPM>
 	
 	private BpmTab()
 	{
-		table.addColumn("No", ColumnNumber.getVector());
+		table.addColumn("No", RowNumber.getVector());
 		table.addColumn("BPM", -1);
 	}
 

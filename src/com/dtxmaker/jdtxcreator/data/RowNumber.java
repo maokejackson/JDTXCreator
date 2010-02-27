@@ -2,7 +2,7 @@ package com.dtxmaker.jdtxcreator.data;
 
 import java.util.Vector;
 
-public class ColumnNumber
+public class RowNumber
 {
 	private static final Vector<String> vector = new Vector<String>();
 	
@@ -21,14 +21,14 @@ public class ColumnNumber
 		vector.remove(0);	// remove 00
 	}
 
-	public static int getColumn(String number)
+	public static int getRowIndex(String number)
 	{
 		return vector.indexOf(number);
 	}
 	
-	public static String getNumber(int column)
+	public static String getNumber(int rowIndex)
 	{
-		return vector.get(column);
+		return vector.get(rowIndex);
 	}
 	
 	public static Vector<String> getVector()

@@ -81,7 +81,7 @@ public class Toolbar extends JToolBar implements ActionListener
 		btnEditMode.addActionListener(this);
 
 		btnPlay = new ToolbarButton("images/play_start.png", Language.get("toolbar.tooltip.play_from_start"));
-		btnPlayCurrent = new ToolbarButton("images/play.png", Language.get("toolbar.tooltip.play_from_current_part"));
+		btnPlayCurrent = new ToolbarButton("images/play.png", Language.get("toolbar.tooltip.play"));
 		btnStop = new ToolbarButton("images/stop.png", Language.get("toolbar.tooltip.stop"));
 		btnBgmSound = new ToolbarToggleButton("images/bgm_sound.png", Language.get("toolbar.tooltip.bgm_sound"));
 		btnBgmSound.setSelected(true);

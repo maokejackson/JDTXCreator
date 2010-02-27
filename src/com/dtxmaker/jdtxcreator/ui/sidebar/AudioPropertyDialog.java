@@ -9,6 +9,7 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
+import com.dtxmaker.jdtxcreator.Language;
 import com.dtxmaker.jdtxcreator.data.Audio;
 import com.dtxmaker.jdtxcreator.ui.AudioFileChooser;
 import com.dtxmaker.jdtxcreator.ui.LevelController;
@@ -33,28 +34,41 @@ public class AudioPropertyDialog extends AbstractPropertyDialog<Audio>
 	
 	private AudioPropertyDialog()
 	{
-		setTitle("Sound Property");
+		setTitle(Language.get("audio.dialog.title"));
 		setModal(true);
 		setResizable(false);
 		
-		lblNumber = new JLabel("Audio No.");
-		lblLabel = new JLabel("Label");
-		lblFile = new JLabel("File");
-		lblVolume = new JLabel("Volume");
-		lblPosition = new JLabel("Position");
-		lblSize = new JLabel("Size");
+		lblNumber = new JLabel(Language.get("audio.dialog.number"));
+		lblNumber.setToolTipText(Language.get("audio.dialog.tooltip.number"));
+		lblLabel = new JLabel(Language.get("audio.dialog.label"));
+		lblLabel.setToolTipText(Language.get("audio.dialog.tooltip.label"));
+		lblFile = new JLabel(Language.get("audio.dialog.file"));
+		lblFile.setToolTipText(Language.get("audio.dialog.tooltip.file"));
+		lblVolume = new JLabel(Language.get("audio.dialog.volume"));
+		lblVolume.setToolTipText(Language.get("audio.dialog.tooltip.volume"));
+		lblPosition = new JLabel(Language.get("audio.dialog.position"));
+		lblPosition.setToolTipText(Language.get("audio.dialog.tooltip.position"));
+		lblSize = new JLabel(Language.get("audio.dialog.size"));
+		lblSize.setToolTipText(Language.get("audio.dialog.tooltip.size"));
 		
 		txtNumber = new JTextField();
 		txtNumber.setEditable(false);
 		txtNumber.setHorizontalAlignment(SwingConstants.CENTER);
+		txtNumber.setToolTipText(Language.get("audio.dialog.tooltip.number"));
 		
 		txtLabel = new JTextField();
+		txtLabel.setToolTipText(Language.get("audio.dialog.tooltip.label"));
 		fsFile = new AudioFileChooser();
-		chkBgm = new JCheckBox("Use this sound as BGM");
+		fsFile.setToolTipText(Language.get("audio.dialog.tooltip.file"));
+		chkBgm = new JCheckBox(Language.get("audio.dialog.bgm"));
+		chkBgm.setToolTipText(Language.get("audio.dialog.tooltip.bgm"));
 		
 		lvlVolume = new LevelController(100);
+		lvlVolume.setToolTipText(Language.get("audio.dialog.tooltip.volume"));
 		lvlPosition = new LevelController(0, -100, 100);
+		lvlPosition.setToolTipText(Language.get("audio.dialog.tooltip.position"));
 		lvlSize = new LevelController(100, 1, 100);
+		lvlSize.setToolTipText(Language.get("audio.dialog.tooltip.size"));
 		
 		double b = 10;
 		double f = TableLayout.FILL;
@@ -97,8 +111,8 @@ public class AudioPropertyDialog extends AbstractPropertyDialog<Audio>
 		if (data == null) data = new Audio();
 		
 		data.setNumber(txtNumber.getText());
-		data.setLabel(txtLabel.getText());
-		data.setPath(fsFile.getPath());
+		data.setLabel(txtLabel.getText().trim());
+		data.setPath(fsFile.getPath().trim());
 		data.setBgm(chkBgm.isSelected());
 		data.setVolume(lvlVolume.getValue());
 		data.setPosition(lvlPosition.getValue());

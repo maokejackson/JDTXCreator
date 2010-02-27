@@ -84,7 +84,8 @@ public class Main extends JPanel
 	public void switchSideBar()
 	{
 		int location = splitPane.getDividerLocation();
-		int newLocation = getSize().width - location;
+		int dividerSize = splitPane.getDividerSize();
+		int newLocation = getSize().width - location - dividerSize;
 		
 		Component leftCom = splitPane.getLeftComponent();
 		Component rightCom = splitPane.getRightComponent();

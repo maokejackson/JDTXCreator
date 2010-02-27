@@ -51,6 +51,13 @@ public abstract class AbstractFileChooser extends JPanel
 		textField.setToolTipText(text);
 	}
 	
+	@Override
+	public void setEnabled(boolean enabled)
+	{
+		textField.setEnabled(enabled);
+		button.setEnabled(enabled);
+	}
+	
 	public String getPath()
 	{
 		return textField.getText();
@@ -62,14 +69,22 @@ public abstract class AbstractFileChooser extends JPanel
 	}
 	
 	/**
-	 * Get relative path.
+	 * Get path of a file relative to a directory.
 	 * @param file target file.
-	 * @param dir a dir.
-	 * @return The file path relative to dir.
-	 * @throws IOException
+	 * @param dir a directory relative to.
+	 * @return The path of a file relative to a directory.
+	 * @throws IOException Failed to find relative path.
 	 */
 	protected String getRelativePath(File file, File dir) throws IOException
 	{
+		/*
+		 * Windows seems in some cases not to stop getParent() at 'c:\', which I
+		 * considered to be root. For that reason I had to tweak in the
+		 * following to 'ugly' lines:
+		 */
+		file = new File(file + File.separator + "89243jmsjigs45u9w43545lkhj7").getParentFile();
+		dir = new File(dir + File.separator + "984mvcxbsfgqoykj30487df556").getParentFile();
+
 		File origFile = file;
 		File origDir = dir;
 		ArrayList<File> filePathStack = new ArrayList<File>();
@@ -97,10 +112,6 @@ public abstract class AbstractFileChooser extends JPanel
 		file = filePathStack.get(count);
 		dir = dirPathStack.get(count);
 		
-		System.out.println("File path size: " + filePathStack.size());
-		System.out.println("Dir path size: " + dirPathStack.size());
-		System.out.println();
-		
 		while ((count < filePathStack.size() - 1)
 				&& (count < dirPathStack.size() - 1)
 				&& file.equals(dir))
@@ -108,10 +119,6 @@ public abstract class AbstractFileChooser extends JPanel
 			count++;
 			file = filePathStack.get(count);
 			dir = dirPathStack.get(count);
-			
-			System.out.println("Count: " + count);
-			System.out.println("File absolute path: " + file.getAbsolutePath());
-			System.out.println("Dir absolute path: " + dir.getAbsolutePath());
 		}
 		
 		if (file.equals(dir)) count++;
@@ -123,15 +130,11 @@ public abstract class AbstractFileChooser extends JPanel
 			relString.append(".." + File.separator);
 		}
 		
-		System.out.println("Up as far as necessary: " + relString.toString());
-		
 		// now back down to the file
 		for (int i = count; i < filePathStack.size() - 1; i++)
 		{
 			relString.append(filePathStack.get(i).getName() + File.separator);
 		}
-		
-		System.out.println("Back down to the file: " + relString.toString());
 		
 		relString.append(filePathStack.get(filePathStack.size() - 1).getName());
 		
@@ -139,10 +142,6 @@ public abstract class AbstractFileChooser extends JPanel
 		File relFile = new File(origDir.getAbsolutePath() + File.separator + relString.toString());
 		if (!relFile.getCanonicalFile().equals(origFile.getCanonicalFile()))
 		{
-			System.out.println("File: " + origFile.getCanonicalPath());
-			System.out.println("Dir: " + origDir.getAbsolutePath());
-			System.out.println("Relative string: " + relString.toString());
-			System.out.println("Result: " + relFile.getCanonicalPath());
 			throw new IOException("Failed to find relative path.");
 		}
 		

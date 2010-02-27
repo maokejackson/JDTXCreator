@@ -1,6 +1,8 @@
 package com.dtxmaker.jdtxcreator.ui.sidebar;
 
+import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
+import javax.swing.ScrollPaneConstants;
 
 import com.dtxmaker.jdtxcreator.Language;
 import com.dtxmaker.jdtxcreator.data.DTX;
@@ -26,13 +28,27 @@ public class SideBar extends JTabbedPane
 	
 	private SideBar()
 	{
-		setFocusable(false); 
-		add(Language.get("sidebar.tab.general"), general = GeneralTab.getInstance());
-		add(Language.get("sidebar.tab.audio"), audio = AudioTab.getInstance());
-		add(Language.get("sidebar.tab.image"), image = ImageTab.getInstance());
-		add(Language.get("sidebar.tab.video"), video = VideoTab.getInstance());
-		add(Language.get("sidebar.tab.free"), free = FreeTab.getInstance());
+		setFocusable(false);
+		
+		general = GeneralTab.getInstance();
+		audio = AudioTab.getInstance();
+		image = ImageTab.getInstance();
+		video = VideoTab.getInstance();
+		free = FreeTab.getInstance();
 		bpm = BpmTab.getInstance();
+		
+		JScrollPane scrollPane = new JScrollPane(general);
+		scrollPane.setBorder(null);
+		scrollPane.getVerticalScrollBar().setUnitIncrement(10);
+		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+		
+		add(Language.get("sidebar.tab.general"), general);
+		add(Language.get("sidebar.tab.audio"), audio);
+		add(Language.get("sidebar.tab.image"), image);
+		add(Language.get("sidebar.tab.video"), video);
+		add(Language.get("sidebar.tab.free"), free);
+		
+		setEnabled(false);
 	}
 	
 	public void load(DTX dtx)
@@ -63,5 +79,16 @@ public class SideBar extends JTabbedPane
 		video.resetData();
 		free.resetData();
 		bpm.resetData();
+	}
+	
+	@Override
+	public void setEnabled(boolean enabled)
+	{
+		general.setEnabled(enabled);
+		audio.setEnabled(enabled);
+		image.setEnabled(enabled);
+		video.setEnabled(enabled);
+		free.setEnabled(enabled);
+		bpm.setEnabled(enabled);
 	}
 }

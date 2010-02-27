@@ -6,11 +6,11 @@ import java.util.Vector;
 
 import javax.swing.JButton;
 import javax.swing.JToggleButton;
-import javax.swing.RowFilter;
 
+import com.dtxmaker.jdtxcreator.Language;
 import com.dtxmaker.jdtxcreator.Settings;
-import com.dtxmaker.jdtxcreator.data.ColumnNumber;
 import com.dtxmaker.jdtxcreator.data.Audio;
+import com.dtxmaker.jdtxcreator.data.RowNumber;
 import com.dtxmaker.jdtxcreator.ui.BooleanCellRenderer;
 import com.dtxmaker.jdtxcreator.ui.ToolbarButton;
 import com.dtxmaker.jdtxcreator.ui.ToolbarToggleButton;
@@ -40,13 +40,13 @@ public class AudioTab extends AbstractTableTab<Audio> implements ActionListener
 	
 	private AudioTab()
 	{
-		table.addColumn("No", ColumnNumber.getVector());
-		table.addColumn("Label", "");
-		table.addColumn("File", "");
-		table.addColumn("Vol.", 100);
-		table.addColumn("Pos.", 0);
-		table.addColumn("Size", 100);
-		table.addColumn("BGM", false);
+		table.addColumn(Language.get("audio.table.number"), RowNumber.getVector());
+		table.addColumn(Language.get("audio.table.label"), "");
+		table.addColumn(Language.get("audio.table.file"), "");
+		table.addColumn(Language.get("audio.table.volume"), 100);
+		table.addColumn(Language.get("audio.table.position"), 0);
+		table.addColumn(Language.get("audio.table.size"), 100);
+		table.addColumn(Language.get("audio.table.bgm"), false);
 		
 		table.getColumnExt(COLUMN_BGM).setCellRenderer(new BooleanCellRenderer());
 //		table.setRowFilter(RowFilter.regexFilter("([^0]0|[^0])", COLUMN_NUMBER));
@@ -66,10 +66,13 @@ public class AudioTab extends AbstractTableTab<Audio> implements ActionListener
 		}
 		
 		btnPlay = new ToolbarButton("images/play.png");
+		btnPlay.setToolTipText(Language.get("audio.toolbar.tooltip.play"));
 		btnPlay.addActionListener(this);
 		btnStop = new ToolbarButton("images/stop.png");
+		btnStop.setToolTipText(Language.get("audio.toolbar.tooltip.stop"));
 		btnStop.addActionListener(this);
 		btnSpeaker = new ToolbarToggleButton("images/speaker.png");
+		btnSpeaker.setToolTipText(Language.get("audio.toolbar.tooltip.sound"));
 		btnSpeaker.setSelected(true);
 		
 		toolbar.addSeparator();
@@ -77,6 +80,15 @@ public class AudioTab extends AbstractTableTab<Audio> implements ActionListener
 		toolbar.add(btnStop);
 		toolbar.addSeparator();
 		toolbar.add(btnSpeaker);
+	}
+	
+	@Override
+	public void setEnabled(boolean enabled)
+	{
+		super.setEnabled(enabled);
+		btnPlay.setEnabled(enabled);
+		btnStop.setEnabled(enabled);
+		btnSpeaker.setEnabled(enabled);
 	}
 
 	@Override
@@ -107,7 +119,7 @@ public class AudioTab extends AbstractTableTab<Audio> implements ActionListener
 		for (int i = 0; i < vector.size(); i++)
 		{
 			Audio audio = vector.get(i);
-			int row = ColumnNumber.getColumn(audio.getNumber());
+			int row = RowNumber.getRowIndex(audio.getNumber());
 			if (row != -1) fillDataAt(audio, row);
 		}
 	}
@@ -172,7 +184,7 @@ public class AudioTab extends AbstractTableTab<Audio> implements ActionListener
 	@Override
 	protected void mouseClickedEvent()
 	{
-		// TODO Auto-generated method stub
+		stop();
 		play();
 	}
 	

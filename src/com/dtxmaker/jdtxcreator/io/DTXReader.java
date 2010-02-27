@@ -417,7 +417,7 @@ public class DTXReader
 	{
 		line = getString(line, tag);
 		int index = line.indexOf(';');
-		String comment = null;
+		String comment = "";
 		
 		if (index != -1)	// comment exist
 		{

@@ -76,8 +76,8 @@ public class VideoPropertyDialog extends AbstractPropertyDialog<Video>
 		if (data == null) data = new Video();
 		
 		data.setNumber(txtNumber.getText());
-		data.setLabel(txtLabel.getText());
-		data.setPath(fsFile.getPath());
+		data.setLabel(txtLabel.getText().trim());
+		data.setPath(fsFile.getPath().trim());
 	}
 
 	@Override
