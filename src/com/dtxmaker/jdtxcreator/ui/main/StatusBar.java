@@ -3,14 +3,12 @@ package com.dtxmaker.jdtxcreator.ui.main;
 import info.clearthought.layout.TableLayout;
 
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.Point;
 
-import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JSeparator;
-import javax.swing.SwingConstants;
+
+import com.dtxmaker.jdtxcreator.ui.SlightBevelBorder;
 
 public class StatusBar extends JPanel
 {
@@ -30,13 +28,13 @@ public class StatusBar extends JPanel
 	private StatusBar()
 	{
 		lblChannel = new JLabel("Channel");
-		lblChannel.setBorder(BorderFactory.createLoweredBevelBorder());
+		lblChannel.setBorder(new SlightBevelBorder(SlightBevelBorder.LOWERED));
 		lblPart = new JLabel("Part");
-		lblPart.setBorder(BorderFactory.createLoweredBevelBorder());
+		lblPart.setBorder(new SlightBevelBorder(SlightBevelBorder.LOWERED));
 		lblLocation = new JLabel();
-		lblLocation.setBorder(BorderFactory.createLoweredBevelBorder());
+		lblLocation.setBorder(new SlightBevelBorder(SlightBevelBorder.LOWERED));
 		lblSelected = new JLabel();
-		lblSelected.setBorder(BorderFactory.createLoweredBevelBorder());
+		lblSelected.setBorder(new SlightBevelBorder(SlightBevelBorder.LOWERED));
 		
 		int height = lblChannel.getPreferredSize().height;
 		lblChannel.setPreferredSize(new Dimension(150, height));

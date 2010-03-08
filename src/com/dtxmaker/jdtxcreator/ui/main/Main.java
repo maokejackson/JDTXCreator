@@ -2,12 +2,16 @@ package com.dtxmaker.jdtxcreator.ui.main;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
+import java.awt.event.KeyEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
+import javax.swing.InputMap;
+import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
+import javax.swing.KeyStroke;
 
 import com.dtxmaker.jdtxcreator.Settings;
 import com.dtxmaker.jdtxcreator.ui.chart.ChartFrameManager;
@@ -56,6 +60,14 @@ public class Main extends JPanel
 			}
 		});
 		setSideBar(Settings.getSidebarPosition(), Settings.getDividerLocation());
+		
+		/**
+		 *  remove F6 and F8 keystroke mappings
+		 *  @see http://java.sun.com/j2se/1.4.2/docs/api/javax/swing/doc-files/Key-Windows.html#JSplitPane
+		 */
+		InputMap im = splitPane.getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT).getParent();
+		im.put(KeyStroke.getKeyStroke(KeyEvent.VK_F6, 0), null);
+		im.put(KeyStroke.getKeyStroke(KeyEvent.VK_F8, 0), null);
 		
 		add(toolbar, BorderLayout.NORTH);
 		add(splitPane, BorderLayout.CENTER);
