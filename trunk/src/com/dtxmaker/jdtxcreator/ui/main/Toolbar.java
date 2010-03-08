@@ -13,6 +13,7 @@ import com.dtxmaker.jdtxcreator.Language;
 import com.dtxmaker.jdtxcreator.ui.ToolbarButton;
 import com.dtxmaker.jdtxcreator.ui.ToolbarToggleButton;
 import com.dtxmaker.jdtxcreator.ui.chart.ChartFrameManager;
+import com.dtxmaker.jdtxcreator.ui.player.Player;
 
 public class Toolbar extends JToolBar implements ActionListener
 {
@@ -26,7 +27,7 @@ public class Toolbar extends JToolBar implements ActionListener
 	JButton btnZoomIn, btnZoomOut;
 	JToggleButton btnSelectMode, btnEditMode;
 	JButton btnPlay, btnPlayCurrent, btnStop;
-	JToggleButton btnBgmSound, btnNoteSound;
+	JToggleButton btnBgmSound, btnNoteSound, btnVideoPlayback;
 	JComboBox cbxMargin, cbxPlaySpeed;
 	ButtonGroup grpMode;
 
@@ -87,12 +88,15 @@ public class Toolbar extends JToolBar implements ActionListener
 		btnBgmSound.setSelected(true);
 		btnNoteSound = new ToolbarToggleButton("images/note_sound.png", Language.get("toolbar.tooltip.note_sound"));
 		btnNoteSound.setSelected(true);
+		btnVideoPlayback = new ToolbarToggleButton("images/video.png", Language.get("toolbar.tooltip.video_playback"));
+		btnVideoPlayback.setSelected(true);
 
 		btnPlay.addActionListener(this);
 		btnPlayCurrent.addActionListener(this);
 		btnStop.addActionListener(this);
 		btnBgmSound.addActionListener(this);
 		btnNoteSound.addActionListener(this);
+		btnVideoPlayback.addActionListener(this);
 		
 		String[] margin = { "1/4", "1/8", "1/16", "1/24", "1/32", "1/48", "1/64", "free" };
 		cbxMargin = new JComboBox(margin);
@@ -133,6 +137,7 @@ public class Toolbar extends JToolBar implements ActionListener
 		addSeparator();
 		add(btnBgmSound);
 		add(btnNoteSound);
+		add(btnVideoPlayback);
 //		addSeparator();
 //		add(cbxPlaySpeed);
 	}
@@ -159,6 +164,15 @@ public class Toolbar extends JToolBar implements ActionListener
 	public void setNoteSound(boolean b)
 	{
 		btnNoteSound.setSelected(b);
+	}
+	
+	/**
+	 * Play video during preview.
+	 * @param b set <code>true</code> to play video.
+	 */
+	public void setVideoPlayback(boolean b)
+	{
+		btnVideoPlayback.setSelected(b);
 	}
 
 	@Override
@@ -188,7 +202,8 @@ public class Toolbar extends JToolBar implements ActionListener
 		else if (obj == btnPlay) ;
 		else if (obj == btnPlayCurrent) ;
 		else if (obj == btnStop) ;
-		else if (obj == btnBgmSound) Menu.getInstance().setBgmSound(btnBgmSound.isSelected());
-		else if (obj == btnNoteSound) Menu.getInstance().setNoteSound(btnNoteSound.isSelected());;
+		else if (obj == btnBgmSound) Player.getInstance().setBgmSound(btnBgmSound.isSelected());
+		else if (obj == btnNoteSound) Player.getInstance().setNoteSound(btnNoteSound.isSelected());
+		else if (obj == btnVideoPlayback) Player.getInstance().setVideoPlayback(btnVideoPlayback.isSelected());
 	}
 }

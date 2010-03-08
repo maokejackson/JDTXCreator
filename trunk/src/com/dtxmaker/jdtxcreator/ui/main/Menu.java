@@ -22,6 +22,7 @@ import com.dtxmaker.jdtxcreator.Settings;
 import com.dtxmaker.jdtxcreator.ui.InternalFrameMenuItem;
 import com.dtxmaker.jdtxcreator.ui.MRUMenu;
 import com.dtxmaker.jdtxcreator.ui.chart.ChartFrameManager;
+import com.dtxmaker.jdtxcreator.ui.player.Player;
 
 public class Menu extends JMenuBar implements ActionListener
 {
@@ -32,7 +33,7 @@ public class Menu extends JMenuBar implements ActionListener
 	private static Menu instance;
 	
 	MRUMenu mnuFile;
-	JMenu mnuEdit, mnuView, mnuMusic, mnuWindow, mnuHelp;
+	JMenu mnuEdit, mnuView, mnuPlay, mnuWindow, mnuHelp;
 	JMenuItem itmNew, itmOpen, itmSave, itmSaveAll, itmSaveAs, itmClose, itmCloseAll, itmExit;
 	Separator spFiles;
 	JMenuItem itmUndo, itmRedo;
@@ -44,7 +45,7 @@ public class Menu extends JMenuBar implements ActionListener
 	JCheckBoxMenuItem itmSideBarOnLeft;
 	JMenuItem itmZoomIn, itmZoomOut;
 	JMenuItem itmPlay, itmPlayCurrent, itmStop;
-	JCheckBoxMenuItem itmBgmSound, itmNoteSound;
+	JCheckBoxMenuItem itmBgmSound, itmNoteSound, itmVideoPlayback;
 	JMenuItem itmCascade, itmTileH, itmTileV;
 	Separator spWindows;
 	JMenuItem itmAbout;
@@ -66,8 +67,8 @@ public class Menu extends JMenuBar implements ActionListener
 		mnuEdit.setMnemonic(KeyEvent.VK_E);
 		mnuView = new JMenu(Language.get("menu.view"));
 		mnuView.setMnemonic(KeyEvent.VK_V);
-		mnuMusic = new JMenu(Language.get("menu.music"));
-		mnuMusic.setMnemonic(KeyEvent.VK_M);
+		mnuPlay = new JMenu(Language.get("menu.player"));
+		mnuPlay.setMnemonic(KeyEvent.VK_P);
 		mnuWindow = new JMenu(Language.get("menu.window"));
 		mnuWindow.setMnemonic(KeyEvent.VK_W);
 		mnuHelp = new JMenu(Language.get("menu.help"));
@@ -142,8 +143,10 @@ public class Menu extends JMenuBar implements ActionListener
 		grpMode.add(itmEditMode);
 		
 		itmFind = new JMenuItem(Language.get("menu.edit.find"), KeyEvent.VK_F);
+		itmFind.setIcon(new ImageIcon("images/find.png"));
 		itmFind.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F, ActionEvent.CTRL_MASK));
 		itmReplace = new JMenuItem(Language.get("menu.edit.replace"), KeyEvent.VK_H);
+		itmReplace.setIcon(new ImageIcon("images/replace.png"));
 		itmReplace.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_H, ActionEvent.CTRL_MASK));
 		
 		mnuEdit.add(itmUndo).addActionListener(this);
@@ -178,30 +181,35 @@ public class Menu extends JMenuBar implements ActionListener
 		mnuView.add(itmZoomIn).addActionListener(this);
 		mnuView.add(itmZoomOut).addActionListener(this);
 		
-		itmPlay = new JMenuItem(Language.get("menu.music.play_from_start"), KeyEvent.VK_T);
+		itmPlay = new JMenuItem(Language.get("menu.player.play_from_start"), KeyEvent.VK_T);
 		itmPlay.setIcon(new ImageIcon("images/play_start.png"));
 		itmPlay.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F5, 0));
-		itmPlayCurrent = new JMenuItem(Language.get("menu.music.play"), KeyEvent.VK_P);
+		itmPlayCurrent = new JMenuItem(Language.get("menu.player.play"), KeyEvent.VK_P);
 		itmPlayCurrent.setIcon(new ImageIcon("images/play.png"));
 		itmPlayCurrent.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F6, 0));
-		itmStop = new JMenuItem(Language.get("menu.music.stop"), KeyEvent.VK_S);
+		itmStop = new JMenuItem(Language.get("menu.player.stop"), KeyEvent.VK_S);
 		itmStop.setIcon(new ImageIcon("images/stop.png"));
 		itmStop.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F7, 0));
-		itmBgmSound = new JCheckBoxMenuItem(Language.get("menu.music.bgm_sound"));
+		itmBgmSound = new JCheckBoxMenuItem(Language.get("menu.player.bgm_sound"));
 		itmBgmSound.setIcon(new ImageIcon("images/bgm_sound.png"));
 		itmBgmSound.setMnemonic(KeyEvent.VK_B);
 		itmBgmSound.setSelected(true);
-		itmNoteSound = new JCheckBoxMenuItem(Language.get("menu.music.note_sound"));
+		itmNoteSound = new JCheckBoxMenuItem(Language.get("menu.player.note_sound"));
 		itmNoteSound.setIcon(new ImageIcon("images/note_sound.png"));
 		itmNoteSound.setMnemonic(KeyEvent.VK_N);
 		itmNoteSound.setSelected(true);
+		itmVideoPlayback = new JCheckBoxMenuItem(Language.get("menu.player.video_playback"));
+		itmVideoPlayback.setIcon(new ImageIcon("images/video.png"));
+		itmVideoPlayback.setMnemonic(KeyEvent.VK_V);
+		itmVideoPlayback.setSelected(true);
 		
-		mnuMusic.add(itmPlay).addActionListener(this);
-		mnuMusic.add(itmPlayCurrent).addActionListener(this);
-		mnuMusic.add(itmStop).addActionListener(this);
-		mnuMusic.addSeparator();
-		mnuMusic.add(itmBgmSound).addActionListener(this);
-		mnuMusic.add(itmNoteSound).addActionListener(this);
+		mnuPlay.add(itmPlay).addActionListener(this);
+		mnuPlay.add(itmPlayCurrent).addActionListener(this);
+		mnuPlay.add(itmStop).addActionListener(this);
+		mnuPlay.addSeparator();
+		mnuPlay.add(itmBgmSound).addActionListener(this);
+		mnuPlay.add(itmNoteSound).addActionListener(this);
+		mnuPlay.add(itmVideoPlayback).addActionListener(this);
 		
 		itmCascade = new JMenuItem(Language.get("menu.window.cascade"), KeyEvent.VK_C);
 		itmCascade.setIcon(new ImageIcon("images/cascade.png"));
@@ -224,7 +232,7 @@ public class Menu extends JMenuBar implements ActionListener
 		add(mnuFile);
 		add(mnuEdit);
 		add(mnuView);
-		add(mnuMusic);
+		add(mnuPlay);
 		add(mnuWindow);
 		add(mnuHelp);
 	}
@@ -256,6 +264,15 @@ public class Menu extends JMenuBar implements ActionListener
 	public void setNoteSound(boolean b)
 	{
 		itmNoteSound.setSelected(b);
+	}
+	
+	/**
+	 * Play video during preview.
+	 * @param b set <code>true</code> to play video.
+	 */
+	public void setVideoPlayback(boolean b)
+	{
+		itmVideoPlayback.setSelected(b);
 	}
 	
 	public void addFile(File file)
@@ -342,8 +359,9 @@ public class Menu extends JMenuBar implements ActionListener
 		else if (obj == itmPlay) ;
 		else if (obj == itmPlayCurrent) ;
 		else if (obj == itmStop) ;
-		else if (obj == itmBgmSound) Toolbar.getInstance().setBgmSound(itmBgmSound.isSelected());
-		else if (obj == itmNoteSound) Toolbar.getInstance().setNoteSound(itmNoteSound.isSelected());
+		else if (obj == itmBgmSound) Player.getInstance().setBgmSound(itmBgmSound.isSelected());
+		else if (obj == itmNoteSound) Player.getInstance().setNoteSound(itmNoteSound.isSelected());
+		else if (obj == itmVideoPlayback) Player.getInstance().setVideoPlayback(itmVideoPlayback.isSelected());
 
 		else if (obj == itmCascade) ChartFrameManager.getInstance().cascade();
 		else if (obj == itmTileH) ChartFrameManager.getInstance().tileHorizontally();

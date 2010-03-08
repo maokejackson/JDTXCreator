@@ -2,6 +2,7 @@ package com.dtxmaker.jdtxcreator.ui.chart;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -106,6 +107,9 @@ public class ChartPanel extends JPanel
 	private static final Color LINE_COLOR_NORMAL = new Color(128, 128, 128);
 	private static final Color LINE_COLOR_DARK = new Color(50, 50, 50);
 	
+	private static final Font DEFAULT_CHANNEL_NOTE_FONT = new Font("", Font.PLAIN, 7);
+	private static final Font MEASURE_NUMBER_FONT = new Font("", Font.PLAIN, 50);
+	
 	// 192 notes when part length = 1
 	
 	JScrollPane scrollPane;
@@ -198,7 +202,7 @@ public class ChartPanel extends JPanel
 		// column header text
 		FontMetrics fm = g2.getFontMetrics();
 		FontRenderContext frc = g2.getFontRenderContext();
-		Color textColor = Color.LIGHT_GRAY;
+		Color textColor = new Color(220, 220, 220);
 		Color shadowColor = new Color(0, 0, 0, 200);
 		
 		for (int i = 0, left = 0; i < LANES.length; i++)
@@ -206,10 +210,10 @@ public class ChartPanel extends JPanel
 			Lane lane = LANES[i];
 			
 			int width = fm.stringWidth(lane.name);	// text width
-			int height = fm.getHeight();		// text height
+			int height = fm.getHeight();			// text height
 			int space = (LANE_WIDTH - width) / 2;
-			int x = left + space;		// text position x
-			int y = height + 3;				// text position y
+			int x = left + space;					// text position x
+			int y = height + 3;						// text position y
 
 			TextLayout textLayout = new TextLayout(lane.name, g2.getFont(), frc);
 			AffineTransform at = AffineTransform.getTranslateInstance(x + 2, y + 2);
