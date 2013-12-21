@@ -17,19 +17,18 @@ import jdtxcreator.Settings;
 import jdtxcreator.ui.chart.ChartFrameManager;
 import jdtxcreator.ui.sidebar.SideBar;
 
-
 public class Main extends JPanel
 {
 	private static final long serialVersionUID = 9087102910187363259L;
-	
+
 	private static Main instance;
-	
+
 	Toolbar toolbar;
 	StatusBar statusBar;
 	SideBar sideBar;
 	ChartFrameManager charts;
 	JScrollPane scrollPane;
-	
+
 	JSplitPane splitPane;
 
 	public static Main getInstance()
@@ -37,11 +36,11 @@ public class Main extends JPanel
 		if (instance == null) instance = new Main();
 		return instance;
 	}
-	
+
 	private Main()
 	{
 		super(new BorderLayout());
-		
+
 		toolbar = Toolbar.getInstance();
 		statusBar = StatusBar.getInstance();
 		sideBar = SideBar.getInstance();
@@ -50,7 +49,7 @@ public class Main extends JPanel
 		scrollPane.setBorder(null);
 		scrollPane.getVerticalScrollBar().setUnitIncrement(10);
 		scrollPane.getHorizontalScrollBar().setUnitIncrement(10);
-		
+
 		splitPane = new JSplitPane();
 		splitPane.addPropertyChangeListener(new PropertyChangeListener()
 		{
@@ -61,10 +60,10 @@ public class Main extends JPanel
 			}
 		});
 		setSideBar(Settings.getSidebarPosition(), Settings.getDividerLocation());
-		
+
 		/**
 		 *  remove F6 and F8 keystroke mappings
-		 *  @see http://java.sun.com/j2se/1.4.2/docs/api/javax/swing/doc-files/Key-Windows.html#JSplitPane
+		 *  @see http://download.oracle.com/javase/1.4.2/docs/api/javax/swing/doc-files/Key-Windows.html#JSplitPane
 		 */
 		InputMap im = splitPane.getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT).getParent();
 		im.put(KeyStroke.getKeyStroke(KeyEvent.VK_F6, 0), null);
@@ -99,21 +98,21 @@ public class Main extends JPanel
 		int location = splitPane.getDividerLocation();
 		int dividerSize = splitPane.getDividerSize();
 		int newLocation = getSize().width - location - dividerSize;
-		
+
 		Component leftCom = splitPane.getLeftComponent();
 		Component rightCom = splitPane.getRightComponent();
-		
+
 		splitPane.setLeftComponent(null);
 		splitPane.setRightComponent(null);
-		
+
 		splitPane.setLeftComponent(rightCom);
 		splitPane.setRightComponent(leftCom);
 		splitPane.setDividerLocation(newLocation);
-		
+
 		Settings.setDividerLocation(newLocation);
 		Settings.setSidebarPosition(rightCom instanceof SideBar);
 	}
-	
+
 	public void exit()
 	{
 		if (!ChartFrameManager.getInstance().closeAll()) return;

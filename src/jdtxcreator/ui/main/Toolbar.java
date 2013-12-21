@@ -15,13 +15,12 @@ import jdtxcreator.ui.ToolbarToggleButton;
 import jdtxcreator.ui.chart.ChartFrameManager;
 import jdtxcreator.ui.player.Player;
 
-
 public class Toolbar extends JToolBar implements ActionListener
 {
 	private static final long serialVersionUID = 7186848358364007630L;
 
 	private static Toolbar instance;
-	
+
 	JButton btnNew, btnOpen, btnSave, btnSaveAll;
 	JButton btnCut, btnCopy, btnPaste, btnDelete;
 	JButton btnUndo, btnRedo;
@@ -37,27 +36,27 @@ public class Toolbar extends JToolBar implements ActionListener
 		if (instance == null) instance = new Toolbar();
 		return instance;
 	}
-	
+
 	private Toolbar()
 	{
 		setFloatable(false);
 		setRollover(true);
-		
+
 		btnNew = new ToolbarButton("images/new.png", Language.get("toolbar.tooltip.new"));
 		btnOpen = new ToolbarButton("images/open.png", Language.get("toolbar.tooltip.open"));
 		btnSave = new ToolbarButton("images/save.png", Language.get("toolbar.tooltip.save"));
 		btnSaveAll = new ToolbarButton("images/save_all.png", Language.get("toolbar.tooltip.save_all"));
-		
+
 		btnNew.addActionListener(this);
 		btnOpen.addActionListener(this);
 		btnSave.addActionListener(this);
 		btnSaveAll.addActionListener(this);
-		
+
 		btnCut = new ToolbarButton("images/cut.png", Language.get("toolbar.tooltip.cut"));
 		btnCopy = new ToolbarButton("images/copy.png", Language.get("toolbar.tooltip.copy"));
 		btnPaste = new ToolbarButton("images/paste.png", Language.get("toolbar.tooltip.paste"));
 		btnDelete = new ToolbarButton("images/delete.png", Language.get("toolbar.tooltip.delete"));
-		
+
 		btnCut.addActionListener(this);
 		btnCopy.addActionListener(this);
 		btnPaste.addActionListener(this);
@@ -74,7 +73,7 @@ public class Toolbar extends JToolBar implements ActionListener
 
 		btnZoomIn.addActionListener(this);
 		btnZoomOut.addActionListener(this);
-		
+
 		btnSelectMode = new ToolbarToggleButton("images/select.png", Language.get("toolbar.tooltip.select_mode"));
 		btnEditMode = new ToolbarToggleButton("images/edit.png", Language.get("toolbar.tooltip.edit_mode"));
 //		btnEditMode.setSelected(true);
@@ -98,15 +97,15 @@ public class Toolbar extends JToolBar implements ActionListener
 		btnBgmSound.addActionListener(this);
 		btnNoteSound.addActionListener(this);
 		btnVideoPlayback.addActionListener(this);
-		
+
 		String[] margin = { "1/4", "1/8", "1/16", "1/24", "1/32", "1/48", "1/64", "free" };
 		cbxMargin = new JComboBox(margin);
 		cbxMargin.setToolTipText(Language.get("toolbar.tooltip.margin"));
-		
+
 		Double[] speed = { 1.0, 0.9, 0.8, 0.7, 0.6, 0.5, 0.4, 0.3 };
 		cbxPlaySpeed = new JComboBox(speed);
 		cbxPlaySpeed.setToolTipText(Language.get("toolbar.tooltip.play_speed"));
-		
+
 		grpMode = new ButtonGroup();
 		grpMode.add(btnEditMode);
 		grpMode.add(btnSelectMode);
@@ -142,13 +141,13 @@ public class Toolbar extends JToolBar implements ActionListener
 //		addSeparator();
 //		add(cbxPlaySpeed);
 	}
-	
+
 	public void setMode(boolean mode)
 	{
 		if (mode) btnEditMode.setSelected(true);
 		else btnSelectMode.setSelected(true);
 	}
-	
+
 	/**
 	 * Play bgm during preview.
 	 * @param b set <code>true</code> to play bgm.
@@ -157,7 +156,7 @@ public class Toolbar extends JToolBar implements ActionListener
 	{
 		btnBgmSound.setSelected(b);
 	}
-	
+
 	/**
 	 * Play note sound during preview.
 	 * @param b set <code>true</code> to play note sound.
@@ -166,7 +165,7 @@ public class Toolbar extends JToolBar implements ActionListener
 	{
 		btnNoteSound.setSelected(b);
 	}
-	
+
 	/**
 	 * Play video during preview.
 	 * @param b set <code>true</code> to play video.
@@ -180,12 +179,12 @@ public class Toolbar extends JToolBar implements ActionListener
 	public void actionPerformed(ActionEvent e)
 	{
 		Object obj = e.getSource();
-		
+
 		if (obj == btnNew) ChartFrameManager.getInstance().newChart();
 		else if (obj == btnOpen) ChartFrameManager.getInstance().open();
 		else if (obj == btnSave) ChartFrameManager.getInstance().save();
 		else if (obj == btnSaveAll) ChartFrameManager.getInstance().saveAll();
-		
+
 		else if (obj == btnCut) ;
 		else if (obj == btnCopy) ;
 		else if (obj == btnPaste) ;

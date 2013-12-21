@@ -4,14 +4,13 @@ import java.util.Vector;
 
 import jdtxcreator.data.BPM;
 
-
 public class BpmTab extends AbstractTableTab<BPM>
 {
 	private static final long serialVersionUID = -1757109947485021591L;
-	
+
 	private static BpmTab instance;
 
-	private static final String[] header = 
+	private static final String[] header =
 	{
 		"No",
 		"BPM",
@@ -34,7 +33,7 @@ public class BpmTab extends AbstractTableTab<BPM>
 	public void captureData()
 	{
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
@@ -47,16 +46,16 @@ public class BpmTab extends AbstractTableTab<BPM>
 	protected void fillDataAt(BPM data, int row)
 	{
 		// TODO Auto-generated method stub
-		
+
 	}
-	
+
 	@Override
 	protected BPM getDataAt(int row)
 	{
 		// TODO Auto-generated method stub
 		return null;
 	}
-	
+
 	@Override
 	protected Object[] convertToArray(BPM data)
 	{
@@ -67,26 +66,26 @@ public class BpmTab extends AbstractTableTab<BPM>
 	@Override
 	protected void edit(BPM data)
 	{
-		
+
 	}
 
 	@Override
 	protected void mouseClickedEvent()
 	{
-		
+
 	}
 
 	@Override
 	protected void add()
 	{
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	protected void remove()
 	{
 		// TODO Auto-generated method stub
-		
+
 	}
 }

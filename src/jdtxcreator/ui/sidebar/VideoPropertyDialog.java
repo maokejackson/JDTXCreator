@@ -8,9 +8,7 @@ import javax.swing.SwingConstants;
 
 import jdtxcreator.data.Video;
 import jdtxcreator.ui.VideoFileChooser;
-
 import net.miginfocom.swing.MigLayout;
-
 
 public class VideoPropertyDialog extends AbstractPropertyDialog<Video>
 {

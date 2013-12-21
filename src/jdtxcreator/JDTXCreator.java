@@ -7,27 +7,35 @@ import java.awt.event.WindowEvent;
 import javax.swing.JFrame;
 import javax.swing.JRootPane;
 import javax.swing.SwingUtilities;
-import javax.swing.UIManager;
 
 import jdtxcreator.ui.main.Main;
 import jdtxcreator.ui.main.Menu;
-
+import jdtxcreator.util.Laf;
 
 public class JDTXCreator extends JFrame
 {
 	private static final long serialVersionUID = 4648172894076113183L;
-	
+
 	public static final String PROGRAM_NAME = "JDTXCreator";
 	public static final String VERSION = "0.1";
 	public static final String RELEASE_DATE = "20100215";
 
-	public JDTXCreator()
+	private static JDTXCreator instance;
+
+    public static JDTXCreator getInstance()
+    {
+        if (instance == null) instance = new JDTXCreator();
+        return instance;
+    }
+
+	private JDTXCreator()
 	{
 		setTitle(PROGRAM_NAME/* + " " + VERSION + "(" + RELEASE_DATE + ")" */);
 		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 		addWindowListener(new WindowAdapter()
 		{
-			public void windowClosing(WindowEvent e)
+			@Override
+            public void windowClosing(WindowEvent e)
 			{
 				Main.getInstance().exit();
 			}
@@ -35,7 +43,6 @@ public class JDTXCreator extends JFrame
 		getRootPane().setWindowDecorationStyle(JRootPane.FRAME);
 
 		setJMenuBar(Menu.getInstance());
-//		getContentPane().add(Main.getInstance());
 		setContentPane(Main.getInstance());
 
 		setSize(800, 600);
@@ -47,23 +54,15 @@ public class JDTXCreator extends JFrame
 	public static void main(String[] args)
 	{
 		Toolkit.getDefaultToolkit().getSystemEventQueue().push(new DTXEventQueue());
-
-		try
-		{
-			UIManager.setLookAndFeel("com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel");
-//			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-		}
-		catch (Exception e)
-		{
-			e.printStackTrace();
-		}
+		Laf.setNimbusLookAndFeel();
 
 		SwingUtilities.invokeLater(new Runnable()
 		{
-			public void run()
+			@Override
+            public void run()
 			{
-				new JDTXCreator();
-//				ChartManager.getInstance().newChart();
+				JDTXCreator.getInstance();
+//				ChartFrameManager.getInstance().newChart();
 			}
 		});
 	}

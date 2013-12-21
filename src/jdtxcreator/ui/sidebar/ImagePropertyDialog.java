@@ -9,9 +9,7 @@ import javax.swing.SwingConstants;
 
 import jdtxcreator.data.Image;
 import jdtxcreator.ui.ImageFileChooser;
-
 import net.miginfocom.swing.MigLayout;
-
 
 public class ImagePropertyDialog extends AbstractPropertyDialog<Image>
 {

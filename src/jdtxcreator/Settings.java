@@ -9,17 +9,16 @@ import java.util.Vector;
 
 import jdtxcreator.ui.main.Menu;
 
-
 public class Settings
 {
 	public static final String FILENAME = "default.properties";
-	
+
 	public static final String VERSION = "version";
 	public static final String SIDEBAR_POSITION = "sidebar_on_left";
 	public static final String DIVIDER_LOCATION = "divider_location";
-	
+
 	public static final String MOST_RECENT_USED = "most_recent_used";
-	
+
 //	public static final Font TABLE_FONT = new Font("SimSun", Font.PLAIN, 11);
 	public static final Font TABLE_FONT = new Font("MS Gothic", Font.PLAIN, 12);
 //	public static final Font TABLE_FONT = new Font("Miriam Fixed", Font.PLAIN, 11);
@@ -36,7 +35,7 @@ public class Settings
 		if (!file.exists())
 		{
 			// create default properties
-			
+
 			setDividerLocation(350);
 			setSidebarPosition(true);
 //			set(SOUND_LIST + COLUMN_WIDTH, new int[] { 30, 80, 150, 35, 35, 35, 40});
@@ -48,7 +47,7 @@ public class Settings
 			try
 			{
 				FileInputStream inputStream = new FileInputStream(file);
-				
+
 				try
 				{
 					props.load(inputStream);
@@ -216,9 +215,9 @@ public class Settings
 		String value = get(key);
 
 		if (value == null) return vector;
-		
+
 		String[] values = value.split(separator);
-		
+
 		for (int i = 0; i < values.length; i++)
 		{
 			try
@@ -231,7 +230,7 @@ public class Settings
 				vector.add(null);
 			}
 		}
-		
+
 		return vector;
 	}
 
@@ -241,9 +240,9 @@ public class Settings
 		String value = get(key);
 
 		if (value == null) return vector;
-		
+
 		String[] values = value.split(separator);
-		
+
 		for (int i = 0; i < values.length; i++)
 		{
 			try
@@ -256,7 +255,7 @@ public class Settings
 				vector.add(null);
 			}
 		}
-		
+
 		return vector;
 	}
 

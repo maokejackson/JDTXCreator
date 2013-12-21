@@ -11,9 +11,7 @@ import jdtxcreator.Language;
 import jdtxcreator.data.Audio;
 import jdtxcreator.ui.AudioFileChooser;
 import jdtxcreator.ui.LevelController;
-
 import net.miginfocom.swing.MigLayout;
-
 
 public class AudioPropertyDialog extends AbstractPropertyDialog<Audio>
 {
