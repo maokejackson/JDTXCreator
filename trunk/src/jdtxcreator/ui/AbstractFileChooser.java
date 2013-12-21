@@ -8,9 +8,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import jdtxcreator.Language;
-
 import net.miginfocom.swing.MigLayout;
-
 
 public abstract class AbstractFileChooser extends JPanel
 {

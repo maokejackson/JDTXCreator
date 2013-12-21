@@ -5,14 +5,13 @@ import java.util.Vector;
 import jdtxcreator.data.Image;
 import jdtxcreator.ui.BooleanCellRenderer;
 
-
 public class ImageTab extends AbstractTableTab<Image>
 {
 	private static final long serialVersionUID = -1372502697865953553L;
-	
+
 	private static ImageTab instance;
 
-	private static final String[] header = 
+	private static final String[] header =
 	{
 		"No",
 		"Label",
@@ -24,13 +23,13 @@ public class ImageTab extends AbstractTableTab<Image>
 	private static final int COLUMN_LABEL = 1;
 	private static final int COLUMN_PATH = 2;
 	private static final int COLUMN_TEXTURE = 3;
-	
+
 	public static ImageTab getInstance()
 	{
 		if (instance == null) instance = new ImageTab();
 		return instance;
 	}
-	
+
 	private ImageTab()
 	{
 		super(header, "image_list");
@@ -38,7 +37,7 @@ public class ImageTab extends AbstractTableTab<Image>
 //		table.addColumn("Label", "");
 //		table.addColumn("File", "");
 //		table.addColumn("Tex", false);
-		
+
 		table.setCellRendererAt(new BooleanCellRenderer(), COLUMN_TEXTURE);
 	}
 
@@ -47,7 +46,7 @@ public class ImageTab extends AbstractTableTab<Image>
 	{
 		int size = table.getRowCount();
 		Vector<Image> vector = new Vector<Image>();
-		
+
 		for (int row = 0; row < size; row++)
 		{
 			Image image = getDataAt(row);
@@ -55,7 +54,7 @@ public class ImageTab extends AbstractTableTab<Image>
 			if (path == null || path.length() == 0) continue;
 			vector.add(image);
 		}
-		
+
 		dtx.setImages(null);	// gc
 		dtx.setImages(vector);
 	}
@@ -81,13 +80,13 @@ public class ImageTab extends AbstractTableTab<Image>
 		String path = (String) table.getModelValueAt(row, COLUMN_PATH);
 		String label = (String) table.getModelValueAt(row, COLUMN_LABEL);
 		boolean texture = (Boolean) table.getModelValueAt(row, COLUMN_TEXTURE);
-		
+
 		Image image = new Image();
 		image.setNumber(number);
 		image.setPath(path);
 		image.setLabel(label);
 		image.setTexture(texture);
-		
+
 		return image;
 	}
 
@@ -109,10 +108,10 @@ public class ImageTab extends AbstractTableTab<Image>
 	{
 		int row = table.getSelectedRow();
 		ImagePropertyDialog dialog = ImagePropertyDialog.getInstance();
-		
+
 		dialog.showDialog(data);
 		if (!dialog.isApprove()) return;
-		
+
 		fillDataAt(dialog.getData(), row);
 	}
 
@@ -126,13 +125,13 @@ public class ImageTab extends AbstractTableTab<Image>
 	protected void add()
 	{
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	protected void remove()
 	{
 		// TODO Auto-generated method stub
-		
+
 	}
 }

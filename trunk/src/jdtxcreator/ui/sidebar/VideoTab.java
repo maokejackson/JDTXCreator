@@ -4,14 +4,13 @@ import java.util.Vector;
 
 import jdtxcreator.data.Video;
 
-
 public class VideoTab extends AbstractTableTab<Video>
 {
 	private static final long serialVersionUID = 2722260797018554993L;
-	
+
 	private static VideoTab instance;
 
-	private static final String[] header = 
+	private static final String[] header =
 	{
 		"No",
 		"Label",
@@ -27,7 +26,7 @@ public class VideoTab extends AbstractTableTab<Video>
 		if (instance == null) instance = new VideoTab();
 		return instance;
 	}
-	
+
 	private VideoTab()
 	{
 		super(header, "video_list");
@@ -41,7 +40,7 @@ public class VideoTab extends AbstractTableTab<Video>
 	{
 		int size = table.getRowCount();
 		Vector<Video> vector = new Vector<Video>();
-		
+
 		for (int row = 0; row < size; row++)
 		{
 			Video video = getDataAt(row);
@@ -49,7 +48,7 @@ public class VideoTab extends AbstractTableTab<Video>
 			if (path == null || path.length() == 0) continue;
 			vector.add(video);
 		}
-		
+
 		dtx.setVideos(null);	// gc
 		dtx.setVideos(vector);
 	}
@@ -73,12 +72,12 @@ public class VideoTab extends AbstractTableTab<Video>
 		String number = (String) table.getModelValueAt(row, COLUMN_NUMBER);
 		String path = (String) table.getModelValueAt(row, COLUMN_PATH);
 		String label = (String) table.getModelValueAt(row, COLUMN_LABEL);
-		
+
 		Video video = new Video();
 		video.setNumber(number);
 		video.setPath(path);
 		video.setLabel(label);
-		
+
 		return video;
 	}
 
@@ -99,10 +98,10 @@ public class VideoTab extends AbstractTableTab<Video>
 	{
 		int row = table.getSelectedRow();
 		VideoPropertyDialog dialog = VideoPropertyDialog.getInstance();
-		
+
 		dialog.showDialog(data);
 		if (!dialog.isApprove()) return;
-		
+
 		fillDataAt(dialog.getData(), row);
 	}
 
@@ -116,13 +115,13 @@ public class VideoTab extends AbstractTableTab<Video>
 	protected void add()
 	{
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	protected void remove()
 	{
 		// TODO Auto-generated method stub
-		
+
 	}
 }

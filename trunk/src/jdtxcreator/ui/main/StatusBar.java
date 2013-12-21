@@ -6,9 +6,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import jdtxcreator.ui.SlightBevelBorder;
-
 import net.miginfocom.swing.MigLayout;
-
 
 public class StatusBar extends JPanel
 {

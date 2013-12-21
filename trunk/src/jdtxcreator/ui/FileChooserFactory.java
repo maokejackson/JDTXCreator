@@ -10,11 +10,10 @@ import jdtxcreator.Language;
 import jdtxcreator.ui.chart.ChartFrameManager;
 import jdtxcreator.ui.main.Main;
 
-
 public abstract class FileChooserFactory
 {
 	private static JFileChooser fileChooser;
-	
+
 	public static File getSelectedFile()
 	{
 		if (fileChooser == null) return null;
@@ -78,10 +77,10 @@ public abstract class FileChooserFactory
 		fileChooser.setAcceptAllFileFilterUsed(false);
 		fileChooser.setMultiSelectionEnabled(multiple);
 		fileChooser.setFileFilter(new FileNameExtensionFilter("Video file (*.avi)", "avi"));
-		
+
 		return fileChooser.showOpenDialog(Main.getInstance());
 	}
-	
+
 	public static int saveAs(String defaultFilename)
 	{
 		fileChooser = new JFileChooser(ChartFrameManager.getInstance().getWorkingDir())
@@ -108,7 +107,7 @@ public abstract class FileChooserFactory
 		fileChooser.setDialogTitle(Language.get("filechooser.title.save_as"));
 		fileChooser.setAcceptAllFileFilterUsed(false);
 		fileChooser.setFileFilter(new FileNameExtensionFilter("DTX file (*.dtx)", "dtx"));
-		
+
 		return fileChooser.showSaveDialog(Main.getInstance());
 	}
 }

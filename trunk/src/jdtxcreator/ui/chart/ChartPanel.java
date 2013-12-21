@@ -23,14 +23,13 @@ import javax.swing.JScrollPane;
 import jdtxcreator.ui.chart.Lane.TYPE;
 import jdtxcreator.ui.main.StatusBar;
 
-
 public class ChartPanel extends JPanel
 {
 	private static final long serialVersionUID = 3008335903707360858L;
-	
+
 	public static final int LANE_WIDTH = 30;
 	public static final int HEADER_HEIGHT = 42;
-	
+
 	public static final int MARGIN_4 = 0;
 	public static final int MARGIN_8 = 1;
 	public static final int MARGIN_16 = 2;
@@ -39,11 +38,11 @@ public class ChartPanel extends JPanel
 	public static final int MARGIN_48 = 5;
 	public static final int MARGIN_64 = 6;
 	public static final int MARGIN_FREE = 7;
-	
+
 	public static final String[] MARGIN = {
 		"1/4", "1/8", "1/16", "1/24", "1/32", "1/48", "1/64", "free"
 	};
-	
+
 	private static final Color RED = new Color(255, 0, 0, 25);
 	private static final Color GREEN = new Color(0, 255, 0, 25);
 	private static final Color BLUE = new Color(0, 127, 255, 25);
@@ -52,11 +51,11 @@ public class ChartPanel extends JPanel
 	private static final Color PINK = new Color(255, 127, 127, 25);
 	private static final Color PURPLE = new Color(255, 0, 255, 25);
 	private static final Color GRAY = new Color(160, 160, 160, 25);
-	
+
 	// lane
-	// BPM | LC HH SN BD HT LT FT CY | FI | BGM AVI | SE1 ~ SE5 | 
+	// BPM | LC HH SN BD HT LT FT CY | FI | BGM AVI | SE1 ~ SE5 |
 	// GtV GtR GtG GtB | GtW | BsV BsR BsG BsB | BsW | SE6 ~ SE15 | BG1 ~ BG5
-	
+
 	private static final Lane[] LANES = {
 		new Lane(TYPE.BPM, "BPM", GRAY, false, 0x08, 0x03),
 		new Lane(TYPE.AUDIO, "LC", CYAN, true, 0x1a, 0x1a),
@@ -101,21 +100,21 @@ public class ChartPanel extends JPanel
 		new Lane(TYPE.IMAGE, "BG4", GRAY, false, 0x56, 0xd6),
 		new Lane(TYPE.IMAGE, "BG5", GRAY, false, 0x57, 0xd7)
 	};
-	
+
 	private static final int NARROW = 1;
 	private static final int WIDE = 2;
-	
+
 	private static final Color LINE_COLOR_BRIGHT = Color.WHITE;
 	private static final Color LINE_COLOR_NORMAL = new Color(128, 128, 128);
 	private static final Color LINE_COLOR_DARK = new Color(50, 50, 50);
-	
+
 	private static final Font DEFAULT_CHANNEL_NOTE_FONT = new Font("", Font.PLAIN, 7);
 	private static final Font MEASURE_NUMBER_FONT = new Font("", Font.PLAIN, 50);
-	
+
 	// 192 notes when part length = 1
-	
+
 	JScrollPane scrollPane;
-	
+
 	private int margin = 2;
 
 	public ChartPanel()
@@ -124,60 +123,60 @@ public class ChartPanel extends JPanel
 		setBackground(Color.BLACK);
 		addMouseListener(mouseListener);
 		addMouseMotionListener(mouseMotionListener);
-		
+
 		scrollPane = new JScrollPane(this);
 		scrollPane.setBorder(null);
 		scrollPane.getVerticalScrollBar().setUnitIncrement(10);
 		scrollPane.getHorizontalScrollBar().setUnitIncrement(10);
 	}
-	
+
 	public JScrollPane getScrollPane()
 	{
 		return scrollPane;
 	}
-	
+
 	void setMargin(int margin)
 	{
 		this.margin = margin;
 	}
-	
+
 	@Override
 	public Dimension getPreferredSize()
 	{
 		int width =  LANE_WIDTH * LANES.length;
-		
+
 		return new Dimension(width, 100);
 	}
-	
+
 	@Override
 	protected void paintComponent(Graphics g)
 	{
 		super.paintComponent(g);
-		
+
 		Graphics2D g2 = (Graphics2D) g.create();
-		
+
 		// background
 		g2.setColor(Color.BLACK);
 		g2.fillRect(0, 0, getWidth(), getHeight());
-		
+
 		// grid line
 		g2.setColor(LINE_COLOR_DARK);
-		
+
 		// lane separator and color
 		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 		g2.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
-		
+
 		for (int i = 0, x = 0; i < LANES.length; i++)
 		{
 			Lane lane = LANES[i];
-			
+
 			// fill color
 			if (lane.background != null)
 			{
 				g2.setColor(lane.background);
 				g2.fillRect(x, 0, LANE_WIDTH, getHeight());
 			}
-			
+
 			// draw separator
 			if (lane.leftSeparatorBold)
 			{
@@ -189,10 +188,10 @@ public class ChartPanel extends JPanel
 				g2.setColor(LINE_COLOR_NORMAL);
 				g2.drawLine(x, 0, x, getHeight());
 			}
-			
+
 			x += LANE_WIDTH;
 		}
-		
+
 		// column header border
 		g2.setPaint(new LinearGradientPaint(0, 0, 0, HEADER_HEIGHT,
 				new float[] { 0f, 0.25f, 1f },
@@ -200,17 +199,17 @@ public class ChartPanel extends JPanel
 		));
 		Rectangle2D rect = new Rectangle2D.Float(0, 0, getWidth(), HEADER_HEIGHT);
 		g2.fill(rect);
-		
+
 		// column header text
 		FontMetrics fm = g2.getFontMetrics();
 		FontRenderContext frc = g2.getFontRenderContext();
 		Color textColor = new Color(220, 220, 220);
 		Color shadowColor = new Color(0, 0, 0, 200);
-		
+
 		for (int i = 0, left = 0; i < LANES.length; i++)
 		{
 			Lane lane = LANES[i];
-			
+
 			int width = fm.stringWidth(lane.name);	// text width
 			int height = fm.getHeight();			// text height
 			int space = (LANE_WIDTH - width) / 2;
@@ -224,23 +223,23 @@ public class ChartPanel extends JPanel
 			g2.fill(outline);
 			g2.setPaint(textColor);
 			textLayout.draw(g2, x, y);
-			
+
 			left += LANE_WIDTH;
 		}
-		
+
 		g2.dispose();
 	}
-	
+
 	void zoomIn()
 	{
 		// TODO: zoom in
 	}
-	
+
 	void zoomOut()
 	{
 		// TODO: zoom out
 	}
-	
+
 	MouseAdapter mouseListener = new MouseAdapter()
 	{
 		@Override
@@ -252,20 +251,20 @@ public class ChartPanel extends JPanel
 				System.out.println("isControlDown");
 			}
 		};
-		
+
 		@Override
 		public void mousePressed(MouseEvent e)
 		{
 			System.out.println("mousePressed");
 		};
-		
+
 		@Override
 		public void mouseReleased(MouseEvent e)
 		{
 			System.out.println("mouseReleased");
 		};
 	};
-	
+
 	MouseMotionListener mouseMotionListener = new MouseMotionListener()
 	{
 		@Override
@@ -273,7 +272,7 @@ public class ChartPanel extends JPanel
 		{
 			StatusBar.getInstance().setPoint2(e.getLocationOnScreen());
 		};
-		
+
 		@Override
 		public void mouseMoved(MouseEvent e)
 		{

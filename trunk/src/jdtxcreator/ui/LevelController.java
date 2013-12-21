@@ -90,9 +90,7 @@ public class LevelController extends JPanel implements FocusListener, Adjustment
 
 	public int getValue()
 	{
-		int value = 0;
-
-		value = textField.getIntValue();
+		int value = textField.getIntValue();
 
 		if (value < min) value = min;
 		else if (value > max) value = max;

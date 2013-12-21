@@ -1,11 +1,9 @@
 package jdtxcreator.ui.main;
 
-import info.clearthought.layout.TableLayout;
-
-import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -13,7 +11,7 @@ import javax.swing.JWindow;
 
 import jdtxcreator.JDTXCreator;
 import jdtxcreator.Language;
-
+import net.miginfocom.swing.MigLayout;
 
 public class AboutDialog extends JWindow implements ActionListener
 {
@@ -32,8 +30,6 @@ public class AboutDialog extends JWindow implements ActionListener
 
 	private AboutDialog()
 	{
-		setLayout(new BorderLayout());
-
 		lblProgram = new JLabel(JDTXCreator.PROGRAM_NAME);
 		lblVersion = new JLabel(JDTXCreator.VERSION);
 		lblRelease = new JLabel(JDTXCreator.RELEASE_DATE);
@@ -41,55 +37,47 @@ public class AboutDialog extends JWindow implements ActionListener
 		lblThanks = new JLabel();
 		lblOthers = new JLabel();
 
-		double f = TableLayout.FILL;
-		double p = TableLayout.PREFERRED;
-		double b = 10;
-		double vs = 5;
-		double[][] size = {
-				{ b, p, b, f, b },
-				{ b, p, vs, p, vs, p, vs, p, vs, p, vs, p, b }
-		};
-
-		JPanel aboutPanel = new JPanel(new TableLayout(size));
-
-		aboutPanel.add(new JLabel("Program name:"), "1, 1");
-		aboutPanel.add(lblProgram, "3, 1");
-		aboutPanel.add(new JLabel("Version:"), "1, 3");
-		aboutPanel.add(lblVersion, "3, 3");
-		aboutPanel.add(new JLabel("Release date:"), "1, 5");
-		aboutPanel.add(lblRelease, "3, 5");
-		aboutPanel.add(new JLabel("Author:"), "1, 7");
-		aboutPanel.add(lblAuthor, "3, 7");
-		aboutPanel.add(new JLabel("Thanks:"), "1, 9");
-		aboutPanel.add(lblThanks, "3, 9");
-		aboutPanel.add(new JLabel(""), "1, 11");
-		aboutPanel.add(lblOthers, "3, 11");
-
 		btnOk = new JButton(Language.get("dialog.ok"));
 		btnOk.addActionListener(this);
 
-		JPanel buttonPanel = new JPanel();
-		buttonPanel.add(btnOk);
+		JPanel contentPane = (JPanel) getContentPane();
+		contentPane.setBorder(BorderFactory.createRaisedBevelBorder());
 
-		add(aboutPanel, BorderLayout.CENTER);
-		add(buttonPanel, BorderLayout.SOUTH);
+        setLayout(new MigLayout("insets dialog,wrap 2", "[pref!]10px[min:140,grow]"));
 
-		setSize(350, 200);
+        String label = "sg 1";
+        String field = "growx, sg 1";
+
+		add(new JLabel("Program name:"), label);
+		add(lblProgram, field);
+
+		add(new JLabel("Version:"), label);
+		add(lblVersion, field);
+
+		add(new JLabel("Release date:"), label);
+		add(lblRelease, field);
+
+		add(new JLabel("Author:"), label);
+		add(lblAuthor, field);
+
+		add(new JLabel("Thanks:"), label);
+		add(lblThanks, field);
+
+		add(new JLabel(""), label);
+		add(lblOthers, field);
+
+        add(new JLabel(), "span, split 3, growx, pushx");
+        add(btnOk, "width pref!");
+        add(new JLabel(), "growx, pushx");
+
+        pack();
+//		setSize(350, 200);
 		setLocationRelativeTo(Main.getInstance());
 	}
 
-	@Override
-	public void setVisible(boolean b)
-	{
-		super.setVisible(b);
-		setLocationRelativeTo(Main.getInstance());
-	}
-
-	@Override
-	public void actionPerformed(ActionEvent e)
-	{
-		Object obj = e.getSource();
-
-		if (obj == btnOk) setVisible(false);
-	}
+    @Override
+    public void actionPerformed(ActionEvent e)
+    {
+        setVisible(false);
+    }
 }

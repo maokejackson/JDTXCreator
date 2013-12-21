@@ -11,9 +11,7 @@ import jdtxcreator.Language;
 import jdtxcreator.ui.AudioFileChooser;
 import jdtxcreator.ui.ImageFileChooser;
 import jdtxcreator.ui.LevelController;
-
 import net.miginfocom.swing.MigLayout;
-
 
 public class GeneralTab extends AbstractTab
 {
