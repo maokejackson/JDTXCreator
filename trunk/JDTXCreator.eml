@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component inherit-compiler-output="true" inheritJdk="true">
+	<output-test url="file://$MODULE_DIR$/out/test/JDTXCreator"/>
+	<exclude-output/>
+	<contentEntry url="file://$MODULE_DIR$"/>
+	<lib name="miglayout-4.0-swing" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/lib/miglayout-4.0-swing.jar!/"/>
+	</lib>
+	<lib name="swingx-all-1.6.4" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/lib/swingx-all-1.6.4.jar!/"/>
+	</lib>
+</component>
