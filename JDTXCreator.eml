@@ -3,10 +3,10 @@
 	<output-test url="file://$MODULE_DIR$/out/test/JDTXCreator"/>
 	<exclude-output/>
 	<contentEntry url="file://$MODULE_DIR$"/>
-	<lib name="miglayout-4.0-swing" scope="COMPILE">
+	<lib name="miglayout-4.0-swing.jar" scope="COMPILE">
 		<relative-module-cls project-related="jar://$PROJECT_DIR$/lib/miglayout-4.0-swing.jar!/"/>
 	</lib>
-	<lib name="swingx-all-1.6.4" scope="COMPILE">
+	<lib name="swingx-all-1.6.4.jar" scope="COMPILE">
 		<relative-module-cls project-related="jar://$PROJECT_DIR$/lib/swingx-all-1.6.4.jar!/"/>
 	</lib>
 </component>
